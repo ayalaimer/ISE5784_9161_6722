@@ -1,16 +1,19 @@
 package geometries;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-public class Cylinder extends Tube{
 
-private  final double height;
+public class Cylinder extends Tube {
 
-public Cylinder(double myHeight, Ray myAxis, double myRadius){
-super(myAxis,myRadius);
-    this.height=myHeight;
-}
-    public Vector getNormal(Point p){
+    private final double height;
+
+    public Cylinder(double myHeight, Ray myAxis, double myRadius) {
+        super(myAxis, myRadius);
+        this.height = myHeight;
+    }
+
+    public Vector getNormal(Point p) {
         return null;
     }
 }

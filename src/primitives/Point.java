@@ -3,7 +3,7 @@ package primitives;
 public class Point {
 
     protected final Double3 xyz;
-    public static final Double3 ZERO= new Double3(0, 0, 0);
+    public static final Point ZERO= new Point(0, 0, 0);
 
     //constructors:
     public Point(double x,double y, double z){
@@ -28,12 +28,11 @@ public class Point {
         return Math.sqrt(distanceSquared(other));
     }
 
-
     @Override
     public boolean equals(Object obj) {
         if (this==obj) return true;
         return (obj instanceof Point other)
-                && this.xyz.equals(other.xyz);
+                && xyz.equals(other.xyz);
     }
 
     @Override
