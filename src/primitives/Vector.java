@@ -30,7 +30,7 @@ public class Vector extends Point {
      * @throws IllegalArgumentException if the vector is zero
      */
     public Vector(Double3 other) {
-        super(other.d1, other.d2, other.d3);
+        super(other);
         if (this.xyz.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("Value cannot be equal to ZERO");
         }
@@ -105,6 +105,6 @@ public class Vector extends Point {
      */
     public Vector normalize() {
         double len = length();
-        return new Vector(this.xyz.d1 / len, this.xyz.d2 / len, this.xyz.d3 / len);
+        return new Vector(this.xyz.reduce(len));
     }
 }

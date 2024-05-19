@@ -14,11 +14,8 @@ public class Triangle extends Polygon {
      * @param vertices the vertices of the triangle
      * @throws IllegalArgumentException if the number of vertices is not equal to 3
      */
-    public Triangle(Point... vertices) {
-        super(vertices);
-        if (vertices.length != 3) {
-            throw new IllegalArgumentException("A triangle must have exactly 3 vertices");
-        }
+    public Triangle(Point p1, Point p2,Point p3) {
+        super(p1,p2,p3);
     }
 }
 
