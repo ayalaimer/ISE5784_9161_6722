@@ -12,7 +12,7 @@ import primitives.Vector;
  * Testing Polygons
  * @author Dan
  */
-public class PolygonTests {
+public class PolygonTest {
     /**
      * Delta value for accuracy when comparing the numbers of type 'double' in
      * assertEquals
