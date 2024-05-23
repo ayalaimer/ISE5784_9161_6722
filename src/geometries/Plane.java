@@ -27,8 +27,12 @@ public class Plane implements Geometry {
      * @param z the third point on the plane
      */
     public Plane(Point x, Point y, Point z) {
-        myNormal = null;
-        myPoint = x;
+       myPoint = x;
+       try{
+           myNormal = x.subtract(y).crossProduct(x.subtract(z)).normalize();
+       }catch(IllegalArgumentException e) {
+           throw new IllegalArgumentException("the points is on same vector");
+       }
     }
 
     /**
