@@ -20,19 +20,18 @@ public class Plane implements Geometry {
     private final Vector myNormal;
 
     /**
-     * Constructs a new Plane with three points in the plane. The normal vector is not calculated in this constructor.
+     * Constructs a new Plane defined by three points.
+     * The normal vector is calculated based on the cross product of vectors formed by these points.
      *
-     * @param x the first point on the plane
-     * @param y the second point on the plane
-     * @param z the third point on the plane
+     * @param p1 the first point on the plane
+     * @param p2 the second point on the plane
+     * @param p3 the third point on the plane
      */
-    public Plane(Point x, Point y, Point z) {
-       myPoint = x;
-       try{
-           myNormal = x.subtract(y).crossProduct(x.subtract(z)).normalize();
-       }catch(IllegalArgumentException e) {
-           throw new IllegalArgumentException("the points is on same vector");
-       }
+    public Plane(Point p1, Point p2, Point p3) {
+        this.myPoint = p1;
+        Vector v1 = p2.subtract(p1);
+        Vector v2 = p3.subtract(p1);
+        this.myNormal = v1.crossProduct(v2).normalize();
     }
 
     /**
@@ -57,6 +56,7 @@ public class Plane implements Geometry {
 
     /**
      * Returns the normal vector of the plane at a given point.
+     * Since the normal is the same everywhere on the plane, the input point is ignored.
      *
      * @param p the point at which the normal is requested
      * @return the normal vector of the plane at the specified point
@@ -65,4 +65,3 @@ public class Plane implements Geometry {
         return myNormal;
     }
 }
-

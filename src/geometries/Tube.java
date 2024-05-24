@@ -18,7 +18,7 @@ public class Tube extends RadialGeometry {
     /**
      * Constructs a new Tube with the specified axis and radius.
      *
-     * @param myAxis the central axis of the tube
+     * @param myAxis   the central axis of the tube
      * @param myRadius the radius of the tube
      */
     public Tube(Ray myAxis, double myRadius) {
@@ -28,11 +28,28 @@ public class Tube extends RadialGeometry {
 
     /**
      * Computes the normal vector to the tube at a given point.
+     * The normal vector is calculated by finding the closest point on the tube's axis to the given point,
+     * and then computing the vector from that point to the given point.
      *
-     * @param p the point on the surface of the tube
+     * @param point a point on the surface of the tube
      * @return the normal vector to the tube at the specified point
      */
-    public Vector getNormal(Point p) {
-        return null; // This method needs to be implemented
+    public Vector getNormal(Point point) {
+        // Get the head (starting point) of the axis
+        Point p0 = this.axis.getHead();
+        // Get the direction vector of the axis
+        Vector dir = this.axis.getDirection();
+
+        // Calculate the vector from the head of the axis to the given point
+        Vector p0ToPoint = point.subtract(p0);
+        // Calculate the parameter t by projecting the vector onto the axis
+        double t = dir.dotProduct(p0ToPoint);
+        // Calculate the closest point on the axis to the given point
+        Point o = p0.add(dir.scale(t));
+
+        // Calculate the normal vector by subtracting the closest point on the axis from the given point
+        Vector normal = point.subtract(o);
+        // Normalize the normal vector to ensure it has unit length
+        return normal.normalize();
     }
 }
