@@ -82,7 +82,7 @@ public class VectorTest {
     @Test
     public void testLength() {
         Vector v = new Vector(1.0, 2.0, 3.0);
-        assertEquals(Math.sqrt(14), v1.length(), 0.0001,"ERROR: length() wrong value");
+        assertEquals(Math.sqrt(14),v.length(), 0.0001,"ERROR: length() wrong value");
 
         assertThrows(IllegalArgumentException.class,
                 () -> v.length(),

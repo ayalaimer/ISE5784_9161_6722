@@ -57,6 +57,7 @@ public final class Main {
       if (!(p1.add(v1Opposite).equals(Point.ZERO)))
          out.println("ERROR: (point + vector) = center of coordinates does not work correctly");
 
+
       // distances
       if (!isZero(p1.distanceSquared(p1)))
          out.println("ERROR: point squared distance to itself is not zero");
