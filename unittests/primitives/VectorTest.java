@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 /**
- * Unit tests for the Vector class.
+ * Unit tests for {@link primitives.Vector} class.
  */
 public class VectorTest {
 
     /**
-     * Test method for Vector constructor with coordinates.
+     * Test method for {@link primitives.Vector#Vector(double, double, double)}constructor.
      */
     @Test
     public void testConstructorWithCoordinates() {
@@ -19,7 +19,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector constructor with Double3.
+     * Test method for {@link primitives.Vector#Vector(Double3)} constructor.
      */
     @Test
     public void testConstructorWithDouble3() {
@@ -30,7 +30,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector constructor throwing exception for zero vector.
+     * Test method for {@link primitives.Vector#Vector(Double3)} constructor.
      */
     @Test
     public void testConstructorThrowsExceptionForZeroVector() {
@@ -46,7 +46,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector addition.
+     * Test method for {@link primitives.Vector#add(Vector)}
      */
     @Test
     public void testAdd() {
@@ -63,7 +63,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector scaling.
+     * Test method for {@link primitives.Vector#scale(double)}
      */
     @Test
     public void testScale() {
@@ -73,7 +73,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector dot product.
+     * Test method for {@link primitives.Vector#dotProduct(Vector)}
      */
     @Test
     public void testDotProduct() {
@@ -84,7 +84,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector cross product.
+     * Test method for {@link primitives.Vector#crossProduct(Vector)}
      */
     @Test
     public void testCrossProduct() {
@@ -102,7 +102,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector length squared.
+     * Test method for {@link Vector#lengthSquared()}
      */
     @Test
     public void testLengthSquared() {
@@ -113,7 +113,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector length.
+     * Test method for {@link Vector#length()}
      */
     @Test
     public void testLength() {
@@ -123,7 +123,7 @@ public class VectorTest {
     }
 
     /**
-     * Test method for Vector normalization.
+     * Test method for {@link Vector#normalize()}
      */
     @Test
     public void testNormalize() {
@@ -135,14 +135,5 @@ public class VectorTest {
         // =============== Boundary Values Tests ==================
         // Check that the normalized vector is a unit vector
         assertEquals(1.0, normalized.length(), 0.0001, "ERROR: the normalized vector is not a unit vector");
-    }
-    /**
-     * Test method for checking length of normalized vector.
-     */
-    @Test
-    public void testNormalizeLength() {
-        // ============ Equivalence Partitions Tests ==============
-        Vector v = new Vector(3.0, 0.0, 4.0);
-        assertEquals(1.0, v.normalize().length(), 0.0001);
     }
 }

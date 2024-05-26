@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * Unit tests for the Point class.
+ * Unit tests for {@link primitives.Point} class.
  */
 public class PointTest {
 
-    /**
-     * Test method for Point constructor with coordinates.
+     /**
+     * Test method for {@link primitives.Point#Point(double, double, double)} constructor.
      */
     @Test
     public void testConstructorWithCoordinates() {
@@ -20,9 +20,9 @@ public class PointTest {
     }
 
     /**
-     * Test method for Point constructor with Double3.
+     * Test method for {@link primitives.Point#Point(Double3)} constructor.
      */
-   // @Test
+    @Test
     public void testConstructorWithDouble3() {
         // ============ Equivalence Partitions Tests ==============
         Double3 coordinates = new Double3(4.0, 5.0, 6.0);
@@ -30,7 +30,7 @@ public class PointTest {
     }
 
     /**
-     * Test method for Point subtract method.
+     * Test method for {@link primitives.Point#subtract(Point)}
      */
 
     @Test
@@ -42,20 +42,20 @@ public class PointTest {
     }
 
     /**
-     * Test method for Point add method.
+     * Test method for {@link primitives.Point#add(Vector)}
      */
     @Test
     public void testAdd() {
         // ============ Equivalence Partitions Tests ==============
         Point p = new Point(1.0, 2.0, 3.0);
         Vector v = new Vector(0.5, 0.5, 0.5);
-        Vector v2 = new Vector(-1, -1, -3);
+        Vector v2 = new Vector(-1, -2, -3);
         assertEquals(new Point(1.5, 2.5, 3.5), p.add(v), "ERROR: (point + vector) = other point does not work correctly");
         assertEquals(new Point(0, 0, 0), p.add(v2), "ERROR: (point + vector) = center of coordinates does not work correctly");
     }
 
     /**
-     * Test method for Point distanceSquared method.
+     * Test method for {@link primitives.Point#distanceSquared(Point)}
      */
     @Test
     public void testDistanceSquared() {
@@ -71,7 +71,7 @@ public class PointTest {
     }
 
     /**
-     * Test method for Point distance method.
+     * Test method for {@link primitives.Point#distance(Point)}
      */
     @Test
     public void testDistance() {

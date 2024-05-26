@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Vector;
 import primitives.Ray;
 
+import java.util.List;
+
 /**
  * The Tube class represents a three-dimensional tube geometry in space.
  * It extends the RadialGeometry class and includes a central axis represented by a Ray.
@@ -51,5 +53,10 @@ public class Tube extends RadialGeometry {
         Vector normal = point.subtract(o);
         // Normalize the normal vector to ensure it has unit length
         return normal.normalize();
+    }
+
+    @Override
+    public List<Point> findIntersectable(Ray ray) {
+        return List.of();
     }
 }

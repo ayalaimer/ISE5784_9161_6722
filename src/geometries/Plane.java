@@ -1,13 +1,15 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+import java.util.List;
 
 /**
  * The Plane class represents a plane in three-dimensional space.
  * It implements the Geometry interface and is defined by a point on the plane and a normal vector.
  */
-public class Plane implements Geometry {
+public class  Plane implements Geometry {
 
     /**
      * A point on the plane.
@@ -63,5 +65,10 @@ public class Plane implements Geometry {
      */
     public Vector getNormal(Point p) {
         return myNormal;
+    }
+
+    @Override
+    public List<Point> findIntersectable(Ray ray) {
+        return  null;
     }
 }
