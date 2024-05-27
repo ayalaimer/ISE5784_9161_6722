@@ -30,38 +30,34 @@ public class Cylinder extends Tube {
     /**
      * Computes the normal vector to the cylinder at a given point.
      *
-     * @param p the point on the surface of the cylinder
+     * @param point the point on the surface of the cylinder
      * @return the normal vector to the cylinder at the specified point
      */
 
+    @Override
     public Vector getNormal(Point point) {
-        Point p0 = this.axis.getHead(); // base center of the cylinder
-        Vector dir =this.axis.getDirection(); // direction of the cylinder axis
+        Point p0 = axis.getHead();
+        Vector v = axis.getDirection();
 
-        // Calculate the top center point of the cylinder
-        Point p1 = p0.add(dir.scale(this.height));
+        //returns v because it is in the direction of the axis
+        if (point.equals(p0))
+            return v;
 
-        // Check if the point is on the top or bottom base
-        if (point.equals(p0) || point.equals(p1)) {
-            return dir;
-        }
+        //project point-p0 on the ray
+        Vector u = point.subtract(p0);
 
-        Vector v1 = point.subtract(p0);
-        double t = v1.dotProduct(dir);
+        // distance from p0 to p1
+        double t = u.dotProduct(v);
 
-        // If the point is on the bottom base
-        if (t <= 0) {
-            return dir.scale(-1);
-        }
+        //if the given point is at the base of the cylinder, return direction vector
+        if (t == 0 || height - t==0)
+            return v;
 
-        // If the point is on the top base
-        if (t >= this.height) {
-            return dir;
-        }
+        //Calculates the other point on the axis facing the given point
+        Point p1= p0.add(v.scale(t));
 
-        // If the point is on the side surface
-        Point o = p0.add(dir.scale(t)); // Projection of the point onto the axis
-        return point.subtract(o).normalize();
+        //return the normalized vector
+        return point.subtract(p1).normalize();
     }
 }
 

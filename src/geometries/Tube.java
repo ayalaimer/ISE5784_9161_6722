@@ -37,21 +37,24 @@ public class Tube extends RadialGeometry {
      * @return the normal vector to the tube at the specified point
      */
     public Vector getNormal(Point point) {
-        // Get the head (starting point) of the axis
-        Point p0 = this.axis.getHead();
-        // Get the direction vector of the axis
-        Vector dir = this.axis.getDirection();
+        // Compute the vector from the ray origin to the given point
+        Vector vectorToPoint = point.subtract(axis.getHead());
 
-        // Calculate the vector from the head of the axis to the given point
-        Vector p0ToPoint = point.subtract(p0);
-        // Calculate the parameter t by projecting the vector onto the axis
-        double t = dir.dotProduct(p0ToPoint);
-        // Calculate the closest point on the axis to the given point
-        Point o = p0.add(dir.scale(t));
+        // Project the vector onto the direction of the ray
+        double t = axis.getDirection().dotProduct(vectorToPoint);
 
-        // Calculate the normal vector by subtracting the closest point on the axis from the given point
+        // Handle the case where the point is exactly at the ray's origin
+        if (t == 0 && vectorToPoint.length() == 0) {
+            throw new IllegalArgumentException("ZERO vector is not allowed");
+        }
+
+        // Compute the closest point on the ray to the given point
+        Point o = axis.getHead().add( axis.getDirection().scale(t));
+
+        // Compute the normal vector by subtracting the closest point from the given point
         Vector normal = point.subtract(o);
-        // Normalize the normal vector to ensure it has unit length
+
+        // Return the normalized vector
         return normal.normalize();
     }
 

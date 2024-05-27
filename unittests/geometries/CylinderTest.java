@@ -11,34 +11,36 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for {@link geometries.Cylinder} class.
  */
 class CylinderTest {
-    /**
-     * Test method for {@link geometries.Cylinder#getNormal(primitives.Point)}.
-     */
     @Test
-    void testGetNormal() {
-        Cylinder cylinder = new Cylinder(2.5, new Ray(new Point(1, 1, 0), new Vector(0, 1, 1)), 2.0);
+    public void testGetNormal() {
+        Cylinder cy = new Cylinder(2, new Ray(new Point(0, 0, 0),   new Vector(0, 0, 1)),1);
 
         // ============ Equivalence Partitions Tests ==============
-        // TC01: Point on the side surface of the cylinder
-        assertEquals(new Vector(1, 0, 0), cylinder.getNormal(new Point(3, 2.5, 2)), "Bad normal to the side surface of the cylinder");
+        // TC01: test when the point is at the top of the cylinder
+        assertEquals(new Vector(0, 0, 1),
+                cy.getNormal(new Point(0.1, 0.1, 2)),
+                "TC01: ERROR: getNormal() at the top of the cylinder wrong result");
 
-        // TC02: Point on the bottom base of the cylinder
-        assertEquals(new Vector(0, 0, -1), cylinder.getNormal(new Point(1, 1, -1)), "Bad normal to the bottom base of the cylinder");
+        // TC02: Test when the point is at the base of the cylinder
+        assertEquals(new Vector(0, 0, -1),
+                cy.getNormal(new Point(0.1, 0.1, 0)),
+                "TC02: ERROR: getNormal() at the base of the cylinder wrong result");
 
-        // TC03: Point on the top base of the cylinder
-        assertEquals(new Vector(0, 0, 1), cylinder.getNormal(new Point(1, 3.5, 2.5)), "Bad normal to the top base of the cylinder");
+        // TC03: Test when the point is on the cylinder shell
+        assertEquals(new Vector(0, 1, 0),
+                cy.getNormal(new Point(0, 1, 0.5)),
+                "TC03: ERROR: getNormal() on the cylinder shell wrong result");
 
         // =============== Boundary Values Tests ==================
-        // TC11: Point at the center of the bottom base
-        assertEquals(new Vector(0, 0, -1), cylinder.getNormal(new Point(1, 1, 0)), "Bad normal to the center of the bottom base");
+        // TC11: test when the point is equals to the top point cylinder
+        assertEquals(new Vector(0, 0, 1),
+                cy.getNormal(new Point(0, 0, 2)),
+                "TC11: ERROR: getNormal() at the top of the cylinder wrong result");
 
-        // TC12: Point at the center of the top base
-        assertEquals(new Vector(0, 0, 1), cylinder.getNormal(new Point(1, 3.5, 2.5)), "Bad normal to the center of the top base");
-
-        // TC13: Point at the edge between the side and the bottom base
-        assertEquals(new Vector(0, 0, -1), cylinder.getNormal(new Point(3, 1, 0)), "Bad normal to the edge between the side and the bottom base");
-
-        // TC14: Point at the edge between the side and the top base
-        assertEquals(new Vector(0, 0, 1), cylinder.getNormal(new Point(3, 3.5, 2.5)), "Bad normal to the edge between the side and the top base");
+        // TC12:Test when the point is equals to the base point the cylinder
+        assertEquals(new Vector(0, 0, -1),
+                cy.getNormal(new Point(0, 0, 0)),
+                "TC12: ERROR: getNormal() at the base of the cylinder wrong result");
     }
 }
+

@@ -1,6 +1,8 @@
 package primitives;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,6 +29,9 @@ public class VectorTest {
         Double3 coordinates = new Double3(4.0, 5.0, 6.0);
         Vector v = new Vector(coordinates);
         assertEquals(coordinates, v.xyz);
+        assertThrows(IllegalArgumentException.class,
+                () -> new Vector(0,0,0),
+                "Error: value cannot be Zero");
     }
 
     /**
