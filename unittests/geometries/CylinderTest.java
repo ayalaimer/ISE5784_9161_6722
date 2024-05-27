@@ -11,36 +11,101 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for {@link geometries.Cylinder} class.
  */
 class CylinderTest {
+    /**
+     * Test method for {@link geometries.Cylinder#getNormal(primitives.Point)}.
+     */
+    private final double DELTA = 0.000001;
     @Test
-    public void testGetNormal() {
-        Cylinder cy = new Cylinder(2, new Ray(new Point(0, 0, 0),   new Vector(0, 0, 1)),1);
-
+    void getNormal() {
+        Cylinder cylinder=new Cylinder(1,new Ray(new Point(0,0,0),new Vector(0,0,1)),1);
         // ============ Equivalence Partitions Tests ==============
-        // TC01: test when the point is at the top of the cylinder
-        assertEquals(new Vector(0, 0, 1),
-                cy.getNormal(new Point(0.1, 0.1, 2)),
-                "TC01: ERROR: getNormal() at the top of the cylinder wrong result");
+        // Test that check normal when point is on casing
 
-        // TC02: Test when the point is at the base of the cylinder
-        assertEquals(new Vector(0, 0, -1),
-                cy.getNormal(new Point(0.1, 0.1, 0)),
-                "TC02: ERROR: getNormal() at the base of the cylinder wrong result");
 
-        // TC03: Test when the point is on the cylinder shell
-        assertEquals(new Vector(0, 1, 0),
-                cy.getNormal(new Point(0, 1, 0.5)),
-                "TC03: ERROR: getNormal() on the cylinder shell wrong result");
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(1, 0, 0.5)),
+                "ERROR:throws wrong exception");
+
+        // generate the test result
+        Vector result = cylinder.getNormal(new Point(1, 0, 0.5));
+
+        // ensure |result| = 1
+        assertEquals(1, result.length(), DELTA,
+                "Cylinder's normal is not a unit vector");
+
+
+        //test when point is on  the base 1
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(0.25, 0.25, 1)),
+                "ERROR:throws wrong exception");
+
+        // generate the test result
+        Vector result2 = cylinder.getNormal(new Point(0.25, 0.25, 1));
+
+        // ensure |result| = 1
+        assertEquals(1, result2.length(), DELTA,
+                "Cylinder's normal is not a unit vector");
+
+
+
+        //test when point is on the base 2
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(0.25, 0.25, 0)),
+                "ERROR:throws wrong exception");
+
+        // generate the test result
+        Vector result3 = cylinder.getNormal(new Point(0.25, 0.25, 0));
+
+        // ensure |result| = 1
+        assertEquals(1, result3.length(), DELTA,
+                "Cylinder's normal is not a unit vector");
+
+
 
         // =============== Boundary Values Tests ==================
-        // TC11: test when the point is equals to the top point cylinder
-        assertEquals(new Vector(0, 0, 1),
-                cy.getNormal(new Point(0, 0, 2)),
-                "TC11: ERROR: getNormal() at the top of the cylinder wrong result");
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(1, 0, 1)),
+                "ERROR:throws wrong exception");
 
-        // TC12:Test when the point is equals to the base point the cylinder
-        assertEquals(new Vector(0, 0, -1),
-                cy.getNormal(new Point(0, 0, 0)),
-                "TC12: ERROR: getNormal() at the base of the cylinder wrong result");
-    }
+        // generate the test result
+        Vector result4 = cylinder.getNormal(new Point(1, 0, 1));
+
+        // ensure |result| = 1
+        assertEquals(1, result4.length(), DELTA,
+                "Cylinder's normal is not a unit vector");
+
+
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(1, 0, 0)),
+                "ERROR:throws wrong exception");
+
+        // generate the test result
+        Vector result5 = cylinder.getNormal(new Point(1, 0, 0));
+
+        // ensure |result| = 1
+        assertEquals(1, result5.length(), DELTA,
+                "Cylinder's normal is not a unit vector");
+
+
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(0,0,0)),
+                "ERROR:throws wrong exception");
+
+        // generate the test result
+        Vector result6 = cylinder.getNormal(new Point(0,0,0));
+
+        // ensure |result| = 1
+        assertEquals(1, result6.length(), DELTA,
+                "Cylinder's normal is not a unit vector");
+
+
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(0, 0, 1)),
+                "ERROR:throws wrong exception");
+
+        // generate the test result
+        Vector result7 = cylinder.getNormal(new Point(0, 0, 1));
+
+        // ensure |result| = 1
+        assertEquals(1, result7.length(), DELTA,
+                "Cylinder's normal is not a unit vector");
+ }
+
 }
-

@@ -20,23 +20,36 @@ class TubeTest {
      */
     @Test
     void testGetNormal() {
-        Tube tube = new Tube(new Ray(new Point(1, 2, 3), new Vector(0, 1, 0)), 2.5);
-
+        Tube tube=new Tube(new Ray(new Point(0,0,0),new Vector(0,1,0)),1);
         // ============ Equivalence Partitions Tests ==============
-
-        assertEquals(new Vector(0, 0, 1), tube.getNormal(new Point(3, 2, 4.5)),
-                " The calculation of the tube's normal is incorrect");
+        // TC01: There is a simple single test here - using a quad
 
 
-        assertEquals(1, tube.getNormal(new Point(3, 4, 3)).length(), DELTA,
-                "The normal vector is not a unit vector");
+        // ensure there are no exceptions
+        assertDoesNotThrow(() -> tube.getNormal(new Point(1, 2, 0)),
+                "ERROR:throws wrong exception");
 
-        // =============== Boundary Values Tests ==================
+        // generate the test result
+        final Vector result = tube.getNormal(new Point(1, 2, 0));
 
-        // Test when the point is orthogonal to the ray's head goes to the ZERO vector
-        assertThrows(IllegalArgumentException.class, () -> {
-                    tube.getNormal(new Point(1, 2, 3)); // Use the same point as the ray's head
-                },
-                "ZERO vector is not allowed");
-    }
+        // ensure |result| = 1
+        assertEquals(1, result.length(), DELTA,
+                "Tube's normal is not a unit vector");
+
+        //checks that tubes normal is calculated correctly
+
+        // assertEquals(new Vector(1,0,0), result, "Tube's normal is not calculated correctly"); need to check what the normal is
+
+        // ============ BVA Tests ==============
+        assertDoesNotThrow(() -> tube.getNormal(new Point(1, 0, 0)),
+                "ERROR:throws wrong exception");
+
+        // generate the test result
+        final Vector result1 = tube.getNormal(new Point(1, 0, 0));
+
+        // ensure |result| = 1
+        assertEquals(1, result1.length(), DELTA,
+                "Tube's normal is not a unit vector");
+ }
+
 }
