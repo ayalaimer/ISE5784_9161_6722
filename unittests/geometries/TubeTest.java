@@ -25,18 +25,16 @@ class TubeTest {
         // ============ Equivalence Partitions Tests ==============
 
         assertEquals(new Vector(0, 0, 1), tube.getNormal(new Point(3, 2, 4.5)),
-                " The calculation of the tube's normal is incorrect");
-
+                "The calculation of the tube's normal is incorrect");
 
         assertEquals(1, tube.getNormal(new Point(3, 4, 3)).length(), DELTA,
                 "The normal vector is not a unit vector");
 
         // =============== Boundary Values Tests ==================
 
-        // Test when the point is orthogonal to the ray's head goes to the ZERO vector
+        // Test when the point is the same as the ray's origin
         assertThrows(IllegalArgumentException.class, () -> {
-                    tube.getNormal(new Point(1, 2, 3)); // Use the same point as the ray's head
-                },
-                "ZERO vector is not allowed");
+            tube.getNormal(new Point(1, 2, 3)); // Use the same point as the ray's head
+        }, "Point cannot be the same as the tube axis origin");
     }
 }

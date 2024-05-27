@@ -46,6 +46,12 @@ public class Tube extends RadialGeometry {
         Vector p0ToPoint = point.subtract(p0);
         // Calculate the parameter t by projecting the vector onto the axis
         double t = dir.dotProduct(p0ToPoint);
+
+        // Handle the case where the point lies exactly on the axis
+        if (t == 0) {
+            return dir; // Return the direction vector of the axis
+        }
+
         // Calculate the closest point on the axis to the given point
         Point o = p0.add(dir.scale(t));
 

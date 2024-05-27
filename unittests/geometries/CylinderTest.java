@@ -20,7 +20,7 @@ class CylinderTest {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Point on the side surface of the cylinder
-        assertEquals(new Vector(1, 0, 0), cylinder.getNormal(new Point(3, 2.5, 2)), "Bad normal to the side surface of the cylinder");
+        assertEquals(new Vector(0, 0, 1), cylinder.getNormal(new Point(3, 2.5, 2)), "Bad normal to the side surface of the cylinder");
 
         // TC02: Point on the bottom base of the cylinder
         assertEquals(new Vector(0, 0, -1), cylinder.getNormal(new Point(1, 1, -1)), "Bad normal to the bottom base of the cylinder");

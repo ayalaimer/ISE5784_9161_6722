@@ -30,7 +30,7 @@ public class Cylinder extends Tube {
     /**
      * Computes the normal vector to the cylinder at a given point.
      *
-     * @param p the point on the surface of the cylinder
+     * @param point the point on the surface of the cylinder
      * @return the normal vector to the cylinder at the specified point
      */
 
