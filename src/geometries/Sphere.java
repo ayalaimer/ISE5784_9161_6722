@@ -44,7 +44,8 @@ public class Sphere extends RadialGeometry {
     }
 
     @Override
-    public List<Point> findIntersectable(Ray ray) {
-        return List.of();
+
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
 }

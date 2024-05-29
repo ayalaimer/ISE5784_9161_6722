@@ -33,7 +33,7 @@ public class Tube extends RadialGeometry {
      * The normal vector is calculated by finding the closest point on the tube's axis to the given point,
      * and then computing the vector from that point to the given point.
      *
-     * @param point a point on the surface of the tube
+     * @param p a point on the surface of the tube
      * @return the normal vector to the tube at the specified point
      */
 
@@ -53,9 +53,8 @@ public class Tube extends RadialGeometry {
         return (p.subtract(axis.getHead())).normalize();
 
 }
-
     @Override
-    public List<Point> findIntersectable(Ray ray) {
+    public List<Point> findIntersections(Ray ray) {
         return List.of();
     }
 }
