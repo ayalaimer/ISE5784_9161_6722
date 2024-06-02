@@ -1,5 +1,7 @@
 package primitives;
 
+import static primitives.Util.isZero;
+
 public class Ray {
     private final Point head;
     private final Vector direction;
@@ -41,6 +43,9 @@ public class Ray {
      * @return the point on the ray at distance t
      */
     public Point getPoint(double t) {
+        if (isZero(t)) {
+            return head;
+        }
         return head.add(direction.scale(t));
     }
-}
+ }

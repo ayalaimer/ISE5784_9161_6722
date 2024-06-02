@@ -11,17 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for {@link geometries.Cylinder} class.
  */
 class CylinderTest {
-    /**
-     * Test method for {@link geometries.Cylinder#getNormal(primitives.Point)}.
-     */
-    private final double DELTA = 0.000001;
     @Test
     void getNormal() {
         Cylinder cylinder=new Cylinder(1,new Ray(new Point(0,0,0),new Vector(0,0,1)),1);
         // ============ Equivalence Partitions Tests ==============
         // Test that check normal when point is on casing
-
-
         // ensure there are no exceptions
         assertDoesNotThrow(() -> cylinder.getNormal(new Point(1, 0, 0.5)),
                 "ERROR:throws wrong exception");
@@ -30,6 +24,7 @@ class CylinderTest {
         Vector result = cylinder.getNormal(new Point(1, 0, 0.5));
 
         // ensure |result| = 1
+        double DELTA = 0.000001;
         assertEquals(1, result.length(), DELTA,
                 "Cylinder's normal is not a unit vector");
 

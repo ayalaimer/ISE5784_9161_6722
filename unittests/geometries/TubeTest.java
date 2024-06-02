@@ -23,8 +23,6 @@ class TubeTest {
         Tube tube=new Tube(new Ray(new Point(0,0,0),new Vector(0,1,0)),1);
         // ============ Equivalence Partitions Tests ==============
         // TC01: There is a simple single test here - using a quad
-
-
         // ensure there are no exceptions
         assertDoesNotThrow(() -> tube.getNormal(new Point(1, 2, 0)),
                 "ERROR:throws wrong exception");

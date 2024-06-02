@@ -3,7 +3,6 @@ package geometries;
 import primitives.*;
 
 
-import java.util.LinkedList;
 import java.util.List;
 import static primitives.Util.*;
 
@@ -81,8 +80,7 @@ public class Plane implements Geometry{
 
         // If t is greater than 0, create a new list containing the intersection point and return it.
         if (t > 0d) {
-            List<Point> list = List.of(ray.getPoint(t));
-            return list;
+            return List.of(ray.getPoint(t));
         }
 
         // Otherwise, return null.

@@ -8,7 +8,6 @@ import static primitives.Util.isZero;
 
 /** The class is a JUnit test class used to test the functionality of the Plane class */
 class PlaneTests {
-    private final double DELTA = 0.000001;
     /** Test method for {@link geometries.Plane#Plane(Point, Point,Point)}. */
     @Test
     void testConstructor() {
@@ -52,11 +51,12 @@ class PlaneTests {
         // generate the test result
         Vector result = plane.getNormal(p1);
         // ensure |result| = 1 , Verify that the length of the computed normal vector is equal to 1
+        double DELTA = 0.000001;
         assertEquals(1, result.length(), DELTA, "Plane's normal is not a unit vector");
 
         // ensure the result is orthogonal to the plane
         assertTrue(isZero(result.dotProduct(p1.subtract(p2))),
-                "Plane's normal is not orthogonal to the plane");
+                "Triangle's normal is not orthogonal to the plane");
 
     }
 
@@ -70,7 +70,7 @@ class PlaneTests {
         // TC01: ray intersects the plane
         Ray ray = new Ray(new Point(-1,0,-1), new Vector(1, 0,1));
         assertEquals(pl.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the plane");
-        assertEquals(pl.findIntersections(ray).get(0), new Point(2,0,2), "ERROR: Wrong value point intersects the plane");
+        assertEquals(pl.findIntersections(ray).getFirst(), new Point(2,0,2), "ERROR: Wrong value point intersects the plane");
 
         //TC02: Ray does not intersect the plane
         ray = new Ray(new Point(3,0,3), new Vector(1, 0,1));
@@ -93,7 +93,7 @@ class PlaneTests {
         ray = new Ray(new Point(2,3,1), new Vector(0, 0,1));
         assertEquals(pl.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the plane" +
                 "when the ray is orthogonal to the plane before the plane");
-        assertEquals(pl.findIntersections(ray).get(0), new Point(2,3,2), "ERROR: Wrong value point intersects the plane" +
+        assertEquals(pl.findIntersections(ray).getFirst(), new Point(2,3,2), "ERROR: Wrong value point intersects the plane" +
                 "when the ray is orthogonal to the plane before the plane");
 
         //TC14: in the plane
