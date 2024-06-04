@@ -82,7 +82,6 @@ public class Point {
     public Point add(Vector other) {
         return new Point(this.xyz.add(other.xyz));
     }
-
     /**
      * Computes the squared distance between this point and the specified point.
      *
@@ -95,7 +94,6 @@ public class Point {
         double dz = this.xyz.d3 - other.xyz.d3;
         return dx * dx + dy * dy + dz * dz;
     }
-
     /**
      * Computes the distance between this point and the specified point.
      *

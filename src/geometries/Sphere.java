@@ -45,7 +45,6 @@ public class Sphere extends RadialGeometry {
         // Get the start point and direction of the ray
         Point p0 = ray.getHead();
         Vector dir = ray.getDirection();
-
         // Get the radius of the sphere
         double r = this.radius;
 
