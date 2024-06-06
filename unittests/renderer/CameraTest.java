@@ -3,16 +3,21 @@ package renderer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
 import primitives.*;
-//import scene.Scene;
 
 /**
- * Testing Camera Class
- * @author Dan
+ * Testing Camera Class.
+ * This class contains unit tests for the {@link renderer.Camera} class,
+ * specifically for the method {@link renderer.Camera#constructRay(int, int, int, int)}.
+ * These tests cover both equivalence partitions and boundary values.
+ *
+ * The camera is built using the {@link renderer.Camera.Builder} class.
+ *
+ * The tests verify that the rays constructed by the camera are as expected for
+ * different view plane configurations and pixel coordinates.
  */
 class CameraTests {
-    /** Camera builder for the tests */
+    /** Camera builder for the tests. */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
             //.setImageWriter(new ImageWriter("Test", 1, 1))
@@ -21,12 +26,33 @@ class CameraTests {
             .setVpDistance(10);
 
     /**
-     * Test method for
-     * {@link renderer.Camera#constructRay(int, int, int, int)}.
+     * Test method for {@link renderer.Camera#constructRay(int, int, int, int)}.
+     *
+     * This test method includes several test cases:
+     *
+     * <ul>
+     * <li>Equivalence Partitions Tests:
+     * <ul>
+     * <li>EP01: 4X4 Inside (1,1)</li>
+     * </ul>
+     * </li>
+     * <li>Boundary Values Tests:
+     * <ul>
+     * <li>BV01: 4X4 Corner (0,0)</li>
+     * <li>BV02: 4X4 Side (0,1)</li>
+     * <li>BV03: 3X3 Center (1,1)</li>
+     * <li>BV04: 3X3 Center of Upper Side (0,1)</li>
+     * <li>BV05: 3X3 Center of Left Side (1,0)</li>
+     * <li>BV06: 3X3 Corner (0,0)</li>
+     * </ul>
+     * </li>
+     * </ul>
+     *
+     * @throws CloneNotSupportedException if an attempt to clone the camera fails
      */
     @Test
     void testConstructRay() throws CloneNotSupportedException {
-        final String badRay  = "Bad ray";
+        final String badRay = "Bad ray";
 
         // ============ Equivalence Partitions Tests ==============
         // EP01: 4X4 Inside (1,1)
@@ -59,7 +85,5 @@ class CameraTests {
         // BV06: 3X3 Corner (0,0)
         assertEquals(new Ray(Point.ZERO, new Vector(2, -2, -10)),
                 camera2.constructRay(3, 3, 0, 0), badRay);
-
     }
-
 }

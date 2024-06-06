@@ -1,5 +1,7 @@
 package primitives;
 
+import java.util.Objects;
+
 import static primitives.Util.isZero;
 
 public class Ray {
@@ -47,5 +49,25 @@ public class Ray {
             return head;
         }
         return head.add(direction.scale(t));
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Ray other)
+                && this.head.equals(other.head)
+                && this.direction.equals(other.direction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(head, direction);
+    }
+
+    @Override
+    public String toString() {
+        return "Ray{" +
+                "head=" + head +
+                ", direction=" + direction +
+                '}';
     }
  }
