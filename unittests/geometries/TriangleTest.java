@@ -49,10 +49,10 @@ class TriangleTest {
 
         //TC01: the point inside the triangle
         Ray ray = new Ray(new Point(2,0,0), new Vector(-1, 2,2));
-        assertEquals(triangle.findIntersections(ray).size(), 1, "ERROR: Wrong number of points intersects the sphere " +
+        assertEquals(1, triangle.findIntersections(ray).size(), "ERROR: Wrong number of points intersects the sphere " +
                 "when the point Inside the triangle");
 
-        assertEquals(triangle.findIntersections(ray).get(0), new Point(1,2,2), "ERROR: Wrong number of points intersects the sphere " +
+        assertEquals(new Point(1,2,2), triangle.findIntersections(ray).getFirst(), "ERROR: Wrong point intersects the sphere " +
                 "when the point Inside the triangle");
 
         //TC02: the point outside against edge
@@ -60,12 +60,10 @@ class TriangleTest {
         assertNull(triangle.findIntersections(ray), "ERROR: Wrong number of points intersects the sphere " +
                 "when the point outside against edge the triangle");
 
-
         //TC03: the point outside against vertex
         ray = new Ray(new Point(2,0,0), new Vector(-2, -3,2));
         assertNull(triangle.findIntersections(ray), "ERROR: Wrong number of points intersects the sphere " +
                 "when the point outside against vertex the triangle");
-
 
         // =============== Boundary Values Tests ==================
 

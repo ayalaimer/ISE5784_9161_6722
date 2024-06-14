@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
  */
 public class PointTest {
 
-     /**
+    public static final double DELTA = 0.00001;
+
+    /**
      * Test method for {@link primitives.Point#Point(double, double, double)} constructor.
      */
     @Test
@@ -38,7 +40,9 @@ public class PointTest {
         // ============ Equivalence Partitions Tests ==============
         Point p1 = new Point(1.0, 2.0, 3.0);
         Point p2 = new Point(0.5, 1.5, 2.5);
-        assertEquals(new Vector(0.5, 0.5, 0.5), p1.subtract(p2), "ERROR: (point2 - point1) does not work correctly");
+        assertEquals(new Vector(0.5, 0.5, 0.5),
+                p1.subtract(p2),
+                "ERROR: (point2 - point1) does not work correctly");
     }
 
     /**
@@ -50,7 +54,11 @@ public class PointTest {
         Point p = new Point(1.0, 2.0, 3.0);
         Vector v = new Vector(0.5, 0.5, 0.5);
         Vector v2 = new Vector(-1, -2, -3);
-        assertEquals(new Point(1.5, 2.5, 3.5), p.add(v), "ERROR: (point + vector) = other point does not work correctly");
+        assertEquals(
+                new Point(1.5, 2.5, 3.5),
+                p.add(v),
+                "ERROR: (point + vector) = other point does not work correctly"
+        );
         assertEquals(new Point(0, 0, 0), p.add(v2), "ERROR: (point + vector) = center of coordinates does not work correctly");
     }
 
@@ -62,12 +70,11 @@ public class PointTest {
         // ============ Equivalence Partitions Tests ==============
         Point p1 = new Point(1.0, 2.0, 3.0);
         Point p3 = new Point(2, 4, 5);
-        assertEquals(9.0, p1.distanceSquared(p3), 0.0001);
 
         // =============== Boundary Values Tests ==================
-        assertEquals(0, p1.distanceSquared(p1), "ERROR: point squared distance to itself is not zero");
-        assertEquals(0, p1.distanceSquared(p3) - 9, "ERROR: squared distance between points is wrong");
-        assertEquals(0, p3.distanceSquared(p1) - 9, "ERROR: squared distance between points is wrong");
+        assertEquals(0, p1.distanceSquared(p1), DELTA, "ERROR: point squared distance to itself is not zero");
+        assertEquals(9, p1.distanceSquared(p3), DELTA, "ERROR: squared distance between points is wrong");
+        assertEquals(9, p3.distanceSquared(p1), DELTA, "ERROR: squared distance between points is wrong");
     }
 
     /**
@@ -78,7 +85,7 @@ public class PointTest {
         // ============ Equivalence Partitions Tests ==============
         Point p1 = new Point(1.0, 2.0, 3.0);
         Point p3 = new Point(2, 4, 5);
-        assertEquals(Math.sqrt(9.0), p1.distance(p3), 1e-6);
+        assertEquals(3, p1.distance(p3), DELTA);
 
         // =============== Boundary Values Tests ==================
         assertEquals(0, p1.distance(p1), "ERROR: point distance to itself is not zero");

@@ -1,5 +1,6 @@
 package renderer;
 
+import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -16,7 +17,12 @@ import static primitives.Util.isZero;
 public class Camera implements Cloneable {
     private Point p0;
     private Vector vTo, vUp, vRight;
+
     private double viewPlaneWidth = 0.0, viewPlaneHeight = 0.0, viewPlaneDistance = 0.0;
+    // The object used for writing the rendered image.
+    private ImageWriter imageWriter;
+    // The object used for tracing rays and computing colors.
+    private RayTracerBase rayTracer;
 
     /**
      * Constructs a new Camera with a specified location, viewing direction, and up direction.
@@ -103,6 +109,28 @@ public class Camera implements Cloneable {
     }
 
     /**
+     * Sets the ImageWriter instance for the camera.
+     *
+     * @param imageWriter the ImageWriter instance to set
+     * @return the current Camera instance
+     */
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+
+    /**
+     * Sets the RayTracerBase instance for the camera.
+     *
+     * @param rayTracer the RayTracerBase instance to set
+     * @return the current Camera instance
+     */
+    public Camera setRayTracer(RayTracerBase rayTracer) {
+        this.rayTracer = rayTracer;
+        return this;
+    }
+
+    /**
      * Creates a copy of the current Camera instance.
      *
      * @return a clone of the current Camera instance
@@ -128,6 +156,8 @@ public class Camera implements Cloneable {
         private static final String DIRECTION_MISSING = "Camera direction is missing";
         private static final String VPDIMENSIONS_MISSING = "View plane dimensions are missing";
         private static final String VPDISTANCE_MISSING = "View plane distance is missing";
+        private static final String IMAGE_WRITER_MISSING = "ImageWriter instance is missing";
+        private static final String RAY_TRACER_MISSING = "RayTracerBase instance is missing";
 
         private final Camera camera;
 
@@ -212,6 +242,34 @@ public class Camera implements Cloneable {
         }
 
         /**
+         * Sets the ImageWriter instance for the camera.
+         *
+         * @param imageWriter the ImageWriter instance to set
+         * @return the current Builder instance
+         */
+        public Builder setImageWriter(ImageWriter imageWriter) {
+            if (imageWriter == null) {
+                throw new IllegalArgumentException("ImageWriter cannot be null");
+            }
+            this.camera.imageWriter = imageWriter;
+            return this;
+        }
+
+        /**
+         * Sets the RayTracerBase instance for the camera.
+         *
+         * @param rayTracer the RayTracerBase instance to set
+         * @return the current Builder instance
+         */
+        public Builder setRayTracer(RayTracerBase rayTracer) {
+            if (rayTracer == null) {
+                throw new IllegalArgumentException("RayTracerBase cannot be null");
+            }
+            this.camera.rayTracer = rayTracer;
+            return this;
+        }
+
+        /**
          * Builds and returns the Camera instance.
          *
          * @return the constructed Camera instance
@@ -230,7 +288,89 @@ public class Camera implements Cloneable {
             if (this.camera.viewPlaneDistance == 0) {
                 throw new MissingResourceException(MISSING_DATA_ERROR, CAMERA_CLASS_NAME, VPDISTANCE_MISSING);
             }
+            if (this.camera.imageWriter == null) {
+                throw new MissingResourceException(MISSING_DATA_ERROR, CAMERA_CLASS_NAME, IMAGE_WRITER_MISSING);
+            }
+            if (this.camera.rayTracer == null) {
+                throw new MissingResourceException(MISSING_DATA_ERROR, CAMERA_CLASS_NAME, RAY_TRACER_MISSING);
+            }
             return (Camera) this.camera.clone();
         }
     }
+
+
+    /**
+     * Prints a grid on the view plane at a given interval and color.
+     * @param interval the interval between each line of the grid.
+     * @param color the color of the grid.
+     * @throws MissingResourceException if the image writer field is not initialized.
+     */
+    public void printGrid(int interval, Color color){
+
+        if (this.imageWriter == null)
+            throw new MissingResourceException("The field is not initialized", "Camera", "imageWriter");
+
+        for (int i = 0; i < imageWriter.getNy(); i++) {
+            for (int j = 0; j < imageWriter.getNx(); j++) {
+
+                if (i % interval == 0 || j % interval == 0)
+                    imageWriter.writePixel(j, i, color);
+            }
+        }
+    }
+
+    /**
+     Writes the image to a file using the image writer.
+     @throws MissingResourceException if the image writer field is not initialized.
+     */
+    public void writeToImage() {
+
+        if (this.imageWriter == null)
+            throw new MissingResourceException("The field is not initialized", "Camera", "imageWriter");
+
+        this.imageWriter.writeToImage();
+    }
+    /**
+     * Casts rays through each pixel on the view plane and computes their colors using the ray tracer.
+     * Each pixel's color is then written to the image using the image writer.
+     *
+     * @param nX the number of pixels in the X direction
+     * @param nY the number of pixels in the Y direction
+     * @param j the column index of the pixel
+     * @param i the row index of the pixel
+     */
+    private void castRay(int nX, int nY, int j, int i) {
+        // Constructs a ray through the center of the pixel
+        Ray ray = constructRay(nX, nY, j, i);
+
+        // Computes the color of the ray using traceRay
+        Color pixelColor = rayTracer.traceRay(ray);
+
+        // Writes the pixel with the computed color
+        imageWriter.writePixel(j, i, pixelColor);
+    }
+
+    /**
+     * Renders the entire image by iterating over each pixel on the view plane,
+     * casting rays through them, and computing their colors.
+     * Uses the castRay method to cast rays and writePixel method to write colors to the image.
+     *
+     * @throws MissingResourceException if ImageWriter or RayTracerBase is not initialized
+     */
+    public void renderImage() {
+        if (imageWriter == null || rayTracer == null) {
+            throw new MissingResourceException("ImageWriter or RayTracerBase not initialized", "Camera", "");
+        }
+
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+
+        // Iterates over each pixel on the view plane
+        for (int i = 0; i < nY; i++) {
+            for (int j = 0; j < nX; j++) {
+                castRay(nX, nY, j, i);
+            }
+        }
+    }
+
 }
