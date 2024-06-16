@@ -10,7 +10,7 @@ import static primitives.Util.*;
 /** Plane ia A class that implements the "Geometry" interface.
  * This class represents a plane by a one point on the plane and a vector
  * that orthogonal to the plane (the normal). */
-public class Plane implements Geometry{
+public class Plane extends Geometry{
 
     final Point q0;
     final Vector normal;

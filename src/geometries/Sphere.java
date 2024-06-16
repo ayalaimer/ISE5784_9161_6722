@@ -4,41 +4,54 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A class that represents a sphere in space, with the center and the radius of the sphere.
- * sphere is a part of Radial Geometry, so this class extends from "RadialGeometry".
+ * A class that represents a sphere in space, defined by its center and radius.
+ * The sphere is a part of Radial Geometry, so this class extends from {@code RadialGeometry}.
  */
 public class Sphere extends RadialGeometry {
 
     final Point center;
 
     /**
-     * create a new Sphere object with the specified point and radius
+     * Constructs a new Sphere object with the specified radius and center point.
      *
      * @param radius the length of the radius of the sphere
-     * @param center the point that represent the center of the sphere.
-     *               or in other words, the point that has the same distance (radius) to all points on the sphere.
+     * @param center the point that represents the center of the sphere,
+     *               i.e., the point that is equidistant (at the radius) from all points on the sphere.
      */
     public Sphere(double radius, Point center) {
-        super(radius); //call to the father constructor with the radius
+        super(radius); // Call to the superclass constructor with the radius
         this.center = center;
     }
 
     /**
-     * @return the point that represent the center of the sphere.
+     * Returns the center point of the sphere.
+     *
+     * @return the point that represents the center of the sphere.
      */
     public Point getCenter() {
         return center;
     }
 
+    /**
+     * Calculates the normal vector to the sphere at a given point.
+     *
+     * @param point the point on the surface of the sphere at which the normal is to be calculated.
+     * @return the normal vector to the sphere at the specified point.
+     */
     @Override
     public Vector getNormal(Point point) {
         return point.subtract(center).normalize();
     }
 
+    /**
+     * Finds the intersection points between the sphere and a given ray.
+     *
+     * @param ray the ray for which intersections with the sphere are to be found.
+     * @return a list of intersection points, or {@code null} if there are no intersections.
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
 
@@ -50,7 +63,6 @@ public class Sphere extends RadialGeometry {
 
         // Calculate vector from the ray's start point to the center of the sphere
         Vector u;
-
         try {
             u = this.center.subtract(p0);
         } catch (IllegalArgumentException e) {
