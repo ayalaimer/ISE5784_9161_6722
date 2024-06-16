@@ -1,5 +1,4 @@
 package renderer;
-
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
@@ -11,8 +10,6 @@ import static primitives.Util.isZero;
  * The Camera class represents a camera in 3D space with a location, direction, and view plane parameters.
  * It is used to construct rays through a view plane for ray tracing purposes.
  *
- * @version 1.0
- * @since 2024-06-06
  */
 public class Camera implements Cloneable {
     private Point p0;
@@ -275,7 +272,7 @@ public class Camera implements Cloneable {
          * @return the constructed Camera instance
          * @throws CloneNotSupportedException if the Camera instance cannot be cloned
          */
-        public Camera build() throws CloneNotSupportedException {
+        public Camera build()  {
             if (this.camera.p0 == null) {
                 throw new MissingResourceException(MISSING_DATA_ERROR, CAMERA_CLASS_NAME, POSITION_MISSING);
             }
@@ -305,7 +302,7 @@ public class Camera implements Cloneable {
      * @param color the color of the grid.
      * @throws MissingResourceException if the image writer field is not initialized.
      */
-    public void printGrid(int interval, Color color){
+    public Camera printGrid(int interval, Color color){
 
         if (this.imageWriter == null)
             throw new MissingResourceException("The field is not initialized", "Camera", "imageWriter");
@@ -317,6 +314,8 @@ public class Camera implements Cloneable {
                     imageWriter.writePixel(j, i, color);
             }
         }
+        writeToImage();
+        return this;
     }
 
     /**
@@ -328,7 +327,7 @@ public class Camera implements Cloneable {
         if (this.imageWriter == null)
             throw new MissingResourceException("The field is not initialized", "Camera", "imageWriter");
 
-        this.imageWriter.writeToImage();
+        imageWriter.writeToImage();
     }
     /**
      * Casts rays through each pixel on the view plane and computes their colors using the ray tracer.
@@ -357,7 +356,7 @@ public class Camera implements Cloneable {
      *
      * @throws MissingResourceException if ImageWriter or RayTracerBase is not initialized
      */
-    public void renderImage() {
+    public Camera renderImage() {
         if (imageWriter == null || rayTracer == null) {
             throw new MissingResourceException("ImageWriter or RayTracerBase not initialized", "Camera", "");
         }
@@ -371,6 +370,7 @@ public class Camera implements Cloneable {
                 castRay(nX, nY, j, i);
             }
         }
+        return this;
     }
 
 }
