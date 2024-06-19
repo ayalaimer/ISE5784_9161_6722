@@ -11,7 +11,7 @@ import java.util.List;
  * The Geometries class represents a collection of intersectable geometries.
  * It allows adding multiple geometries and finding their intersection points with a given ray.
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
     private final List<Intersectable> geometries = new LinkedList<>();
 
     /**
@@ -44,13 +44,13 @@ public class Geometries implements Intersectable {
      * @return a list of intersection points, or null if no intersections were found
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> points = null; // Initialize the list variable as null
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> points = null; // Initialize the list variable as null
 
         // Iterate over all geometries in the composite structure
         for (Intersectable geometry : this.geometries) {
             // Find intersection points of the current geometry with the given ray
-            List<Point> geometryIntersections = geometry.findIntersections(ray);
+            List<GeoPoint> geometryIntersections = geometry.findGeoIntersectionsHelper(ray);
 
             // If intersection points were found
             if (geometryIntersections != null) {

@@ -8,7 +8,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.List;
 /**
  * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
@@ -85,7 +84,7 @@ public class Polygon extends Geometry {
    public Vector getNormal(Point point) { return plane.getNormal(); }
 
   @Override
-   public List<Point> findIntersections(Ray ray) {
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
      return  null;
   }
 }

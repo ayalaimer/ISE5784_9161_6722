@@ -4,7 +4,7 @@ import primitives.Point;
 
 import java.awt.*;
 
-public abstract class Geometry implements Intersectable{
+public abstract class Geometry extends Intersectable{
     public abstract Vector getNormal(Point p);
      protected Color emission=Color.BLACK;
 

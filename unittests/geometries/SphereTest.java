@@ -29,7 +29,7 @@ class SphereTests {
         assertEquals(1, result.length(), 0.00000001, "Triangle's normal is not a unit vector");
     }
 
-    /** Test method for {@link geometries.Sphere#findIntersections(primitives.Ray)}. */
+    /** Test method for {@link Intersectable#findIntersections(Ray)}. */
     @Test
     public void testFindIntersections() {
         Sphere sphere = new Sphere(1d, new Point(1, 0, 0));

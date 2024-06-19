@@ -58,7 +58,7 @@ class PlaneTests {
                 "Plane's normal is not orthogonal to the plane");
     }
 
-    /** Test method for {@link geometries.Plane#findIntersections(Ray)}. */
+    /** Test method for {@link Intersectable#findIntersections(Ray)}. */
     @Test
     void testFindIntersections() {
         Plane pl = new Plane(new Point(0, 0, 2), new Point(1, 0, 2), new Point(0, 1, 2));

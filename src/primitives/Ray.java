@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static primitives.Util.isZero;
+import geometries.Intersectable.GeoPoint;
 
 public class Ray {
     private final Point head;
@@ -96,5 +97,8 @@ public class Ray {
         }
 
         return closestPoint;
+    }
+    public Point findClosestGeoPoint(){
+return null;
     }
 }
