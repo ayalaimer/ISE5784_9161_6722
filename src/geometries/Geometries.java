@@ -2,7 +2,6 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * The Geometries class represents a collection of intersectable geometries.
  * It allows adding multiple geometries and finding their intersection points with a given ray.
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
     private final List<Intersectable> geometries = new LinkedList<>();
 
     /**
@@ -31,10 +30,12 @@ public class Geometries implements Intersectable {
     /**
      * Adds the given geometries to the collection.
      *
-     * @param myGeometries the geometries to add
+     * @param geometries the geometries to add
      */
-    public void add(Intersectable... myGeometries) {
-        Collections.addAll(geometries, myGeometries);
+    public void add(Intersectable... geometries) {
+        for (Intersectable geometry : geometries) {
+            this.geometries.add(geometry);
+        }
     }
 
     /**
@@ -44,13 +45,13 @@ public class Geometries implements Intersectable {
      * @return a list of intersection points, or null if no intersections were found
      */
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> points = null; // Initialize the list variable as null
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        List<GeoPoint> points = null; // Initialize the list variable as null
 
         // Iterate over all geometries in the composite structure
         for (Intersectable geometry : this.geometries) {
             // Find intersection points of the current geometry with the given ray
-            List<Point> geometryIntersections = geometry.findIntersections(ray);
+            List<GeoPoint> geometryIntersections = geometry.findGeoIntersectionsHelper(ray);
 
             // If intersection points were found
             if (geometryIntersections != null) {

@@ -1,29 +1,24 @@
 package geometries;
 
-import java.util.List;
+import static primitives.Util.*;
 
-import static primitives.Util.isZero;
+import java.util.List;
 
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.List;
-/**
- * Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
+/** Polygon class represents two-dimensional polygon in 3D Cartesian coordinate
  * system
- * @author Dan
- */
-public class Polygon implements Geometry {
+ * @author Dan */
+public class Polygon extends Geometry {
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
-   protected final Plane       plane;
-   /** The size of the polygon - the amount of the vertices in the polygon */
-   private final int           size;
+   protected final Plane plane;
+   private final int size;
 
-   /**
-    * Polygon constructor based on vertices list. The list must be ordered by edge
+   /** Polygon constructor based on vertices list. The list must be ordered by edge
     * path. The polygon must be convex.
     * @param  vertices                 list of vertices according to their order by
     *                                  edge path
@@ -66,8 +61,10 @@ public class Polygon implements Geometry {
       // line.
       // Generate the direction of the polygon according to the angle between last and
       // first edge being less than 180 deg. It is hold by the sign of its dot product
-      // with the normal. If all the rest consequent edges will generate the same sign
-      // - the polygon is convex ("kamur" in Hebrew).
+      // with
+      // the normal. If all the rest consequent edges will generate the same sign -
+      // the
+      // polygon is convex ("kamur" in Hebrew).
       boolean positive = edge1.crossProduct(edge2).dotProduct(n) > 0;
       for (var i = 1; i < vertices.length; ++i) {
          // Test that the point is in the same plane as calculated originally
@@ -82,10 +79,52 @@ public class Polygon implements Geometry {
    }
 
    @Override
-   public Vector getNormal(Point point) { return plane.getNormal(); }
+   public Vector getNormal(Point point) { return plane.getNormal(point); }
 
-  @Override
-   public List<Point> findIntersections(Ray ray) {
-     return  null;
-  }
+   @Override
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+
+      // Find intersections between the ray and the polygon's plane
+      List<GeoPoint> planeIntersections = plane.findGeoIntersections(ray);
+
+      // Return null if there are no plane intersections
+      if (planeIntersections == null) {
+         return null;
+      }
+
+      // Compute necessary vectors and points for intersection calculation
+      Point P0 = ray.getHead();
+      Vector dir = ray.getDirection();
+      Point P1 = vertices.get(1);
+      Point P2 = vertices.get(0);
+      Vector v1 = P1.subtract(P0);
+      Vector v2 = P2.subtract(P0);
+
+      // Check if the ray intersects the polygon using sign calculation
+      double sign = alignZero(dir.dotProduct(v1.crossProduct(v2)));
+      if (isZero(sign)) {
+         return null;
+      }
+
+      boolean positive = sign > 0;
+
+      // Iterate through all vertices of the polygon to check if they lie on the same side of the ray
+      for (int i = vertices.size() - 1; i > 0; --i) {
+         v1 = v2;
+         v2 = vertices.get(i).subtract(P0);
+         sign = alignZero(dir.dotProduct(v1.crossProduct(v2)));
+
+         // Return null if the vertex lies on the plane of the polygon
+         if (isZero(sign)) {
+            return null;
+         }
+
+         // Return null if the vertex lies on the opposite side of the ray
+         if (positive != (sign > 0)) {
+            return null;
+         }
+      }
+
+      return List.of(new GeoPoint(this, planeIntersections.get(0).point));
+   }
 }
