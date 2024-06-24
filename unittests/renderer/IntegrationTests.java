@@ -48,7 +48,7 @@ public class IntegrationTests {
                 Ray ray = camera.constructRay(nX, nY, j, i);
 
                 // Find intersection points of the ray with the geometric entity.
-                List<Point> intersectionPoints = geo.findGeoIntersectionsHelper(ray);
+                List<Point> intersectionPoints = geo.findIntersections(ray);
 
                 // If there are intersection points, add their count to the total.
                 countIntersection += ((intersectionPoints == null) ? 0 : intersectionPoints.size());
