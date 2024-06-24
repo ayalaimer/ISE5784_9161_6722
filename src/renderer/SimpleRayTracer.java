@@ -5,6 +5,7 @@ import primitives.Point;
 import primitives.Ray;
 import scene.Scene;
 import java.util.List;
+import geometries.Intersectable.GeoPoint;
 
 /**
  * A basic Ray Tracer implementation that extends the RayTracerBase abstract class.
@@ -46,7 +47,9 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param point The Point object representing the intersection point with the Ray.
      * @return The Color of the object at the intersection point.
      */
+
     private Color calcColor(Point point) {
         return scene.ambientLight.getIntensity();
     }
+
 }
