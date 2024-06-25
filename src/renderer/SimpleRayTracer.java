@@ -23,33 +23,21 @@ public class SimpleRayTracer extends RayTracerBase {
     public SimpleRayTracer(Scene scene) {
         super(scene);
     }
-
     @Override
     public Color traceRay(Ray ray) {
-        // Find intersection points between the ray and the scene geometries
-        List<Point> intersectionPoints = scene.geometries.findIntersections(ray);
+        List<GeoPoint> points = scene.geometries.findGeoIntersections(ray);
 
-        // If no intersections found, return the background color
-        if (intersectionPoints == null)
-            return scene.background;
+        if (points == null)
+            return this.scene.background;
 
-        // Find the closest intersection point to the ray's origin
-        Point closestPoint = ray.findClosestPoint(intersectionPoints);
-
-        // Calculate and return the color at the closest intersection point
-        return calcColor(closestPoint);
+        return calcColor(ray.findClosestGeoPoint(points), ray);
     }
 
-    /**
-     * Method to calculate the color of an object at a specific intersection point.
-     * For this stage of the mini-project, the method returns the ambient light intensity
-     * of the scene, as we are not yet using the given point parameter.
-     * @param point The Point object representing the intersection point with the Ray.
-     * @return The Color of the object at the intersection point.
-     */
 
-    private Color calcColor(Point point) {
-        return scene.ambientLight.getIntensity();
+    private Color calcColor(GeoPoint GeoPoint,Ray ray) {
+        return scene.ambientLight.getIntensity()
+                .add(GeoPoint.geometry.getEmission());
     }
+
 
 }
