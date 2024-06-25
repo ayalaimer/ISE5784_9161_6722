@@ -81,24 +81,9 @@ public class Ray {
      * @return the closest point to this ray, or null if the list is empty.
      */
     public Point findClosestPoint(List<Point> points) {
-        if (points == null || points.isEmpty()) {
-            return null;
-        }
-
-        Point closestPoint = null;
-        double minDistance = Double.MAX_VALUE;
-
-        for (Point point : points) {
-            double distance = head.distanceSquared(point);
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestPoint = point;
-            }
-        }
-
-        return closestPoint;
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
-
 
     /**
      * Finds the closest GeoPoint to a given reference point.
