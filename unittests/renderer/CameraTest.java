@@ -24,7 +24,7 @@ class CameraTests {
             .setLocation(Point.ZERO)
             .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
             .setVpDistance(10)
-            .setVpSize(500,500)
+            .setVpSize(3,3)
             .setImageWriter(new ImageWriter("empty",1,1));
 
     /**
