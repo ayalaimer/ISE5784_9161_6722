@@ -44,8 +44,6 @@ public class RenderTests {
                 new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down
         scene.setAmbientLight(new AmbientLight(new Color(255, 191, 191), Double3.ONE))
                 .setBackground(new Color(75, 127, 90));
-
-
         // right
         camera
                 .setImageWriter(new ImageWriter("base render test", 1000, 1000))
@@ -73,7 +71,6 @@ public class RenderTests {
                 new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))
                         .setEmission(new Color(BLUE)));
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.2, 0.2, 0.2))); //
-
         camera
                 .setImageWriter(new ImageWriter("color render test", 1000, 1000))
                 .build()
