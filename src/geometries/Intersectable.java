@@ -1,19 +1,29 @@
 package geometries;
 
-import primitives.* ;
+import primitives.*;
 import java.util.List;
 
-public abstract class Intersectable  {
+/**
+ * Abstract class representing an Intersectable object in the scene.
+ * Provides methods to find intersections of rays with geometrical objects.
+ */
+public abstract class Intersectable {
 
-    public static class GeoPoint
-    {
+    /**
+     * Class representing a point of intersection between a ray and a geometry.
+     */
+    public static class GeoPoint {
         public Geometry geometry;
         public Point point;
 
-        public GeoPoint(Geometry geo,Point point)
-        {
-            geometry=geo;
-            this.point=point;
+        /**
+         * Constructs a GeoPoint with the specified geometry and point.
+         * @param geo the geometry intersected by the ray
+         * @param point the point of intersection
+         */
+        public GeoPoint(Geometry geo, Point point) {
+            geometry = geo;
+            this.point = point;
         }
 
         @Override
@@ -33,17 +43,34 @@ public abstract class Intersectable  {
                     '}';
         }
     }
+
+    /**
+     * Helper method to find intersections of a ray with geometries.
+     * This method is implemented by subclasses to provide specific intersection logic.
+     *
+     * @param ray the ray to intersect with the geometries
+     * @return a list of GeoPoints representing the intersections
+     */
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 
-
-    public List<Point> findIntersections(Ray ray)
-    {
+    /**
+     * Finds the intersection points of a ray with geometries.
+     *
+     * @param ray the ray to intersect with the geometries
+     * @return a list of points representing the intersections, or null if there are no intersections
+     */
+    public List<Point> findIntersections(Ray ray) {
         var geoList = findGeoIntersections(ray);
-        return geoList == null ? null
-                : geoList.stream().map(GeoPoint -> GeoPoint.point).toList();
+        return geoList == null ? null : geoList.stream().map(geoPoint -> geoPoint.point).toList();
     }
+
+    /**
+     * Finds the GeoPoints of intersections of a ray with geometries.
+     *
+     * @param ray the ray to intersect with the geometries
+     * @return a list of GeoPoints representing the intersections, or null if there are no intersections
+     */
     public final List<GeoPoint> findGeoIntersections(Ray ray) {
         return findGeoIntersectionsHelper(ray);
     }
-
 }

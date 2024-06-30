@@ -16,7 +16,14 @@ import static primitives.Color.BLACK;
 public class Scene {
     /** The name of the scene */
     public String name;
+    /** The list of light sources in the scene. */
     public List<LightSource> lights = new LinkedList<>();
+    /** The background color of the scene, default is black */
+    public Color background = BLACK;
+    /** The ambient light of the scene, default is no ambient light */
+    public AmbientLight ambientLight = AmbientLight.NONE;
+    /** The collection of geometries in the scene */
+    public Geometries geometries = new Geometries();
     /**
      * Sets the list of light sources in the scene.
      *
@@ -27,15 +34,6 @@ public class Scene {
         this.lights = lights;
         return this;
     }
-
-    /** The background color of the scene, default is black */
-    public Color background = BLACK;
-
-    /** The ambient light of the scene, default is no ambient light */
-    public AmbientLight ambientLight = AmbientLight.NONE;
-
-    /** The collection of geometries in the scene */
-    public Geometries geometries;
 
     /**
      * Sets the background color of the scene.
@@ -77,6 +75,5 @@ public class Scene {
      */
     public Scene(String name) {
         this.name = name;
-        this.geometries = new Geometries();
     }
 }
