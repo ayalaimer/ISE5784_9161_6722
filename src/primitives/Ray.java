@@ -1,8 +1,9 @@
 package primitives;
 
+import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
 import java.util.Objects;
-import geometries.Intersectable.GeoPoint;
 
 import static primitives.Util.isZero;
 
@@ -14,7 +15,7 @@ public class Ray {
      * Constructor to initialize the Ray with a head point and a direction vector.
      * The direction vector is normalized.
      *
-     * @param head the starting point of the ray
+     * @param head      the starting point of the ray
      * @param direction the direction of the ray
      */
     public Ray(Point head, Vector direction) {

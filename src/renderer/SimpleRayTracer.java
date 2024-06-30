@@ -4,6 +4,7 @@ import geometries.Intersectable.GeoPoint;
 import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
+
 import static primitives.Util.alignZero;
 
 /**
@@ -13,6 +14,7 @@ import static primitives.Util.alignZero;
 public class SimpleRayTracer extends RayTracerBase {
     /**
      * Constructs a SimpleRayTracer with the given scene.
+     *
      * @param scene The scene to be rendered.
      */
     public SimpleRayTracer(Scene scene) {
@@ -21,6 +23,7 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * Traces a ray and returns the color at the ray's intersection point.
+     *
      * @param ray The ray to be traced.
      * @return The color at the ray's intersection point, or the background color if no intersections are found.
      */
@@ -32,7 +35,8 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * Calculates the color at the given point.
-     * @param gp The point for which the color is calculated.
+     *
+     * @param gp  The point for which the color is calculated.
      * @param ray The ray that intersected with the geometry at point gp.
      * @return The color at the given point.
      */
@@ -42,7 +46,8 @@ public class SimpleRayTracer extends RayTracerBase {
 
     /**
      * Calculates the local lighting effects (diffuse and specular reflections) at a given intersection point.
-     * @param gp The intersection point on the geometry.
+     *
+     * @param gp  The intersection point on the geometry.
      * @param ray The ray that intersected with the geometry at point gp.
      * @return The color contribution from local lighting effects at the intersection point.
      */
@@ -68,8 +73,9 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculates the diffuse reflection color based on the material properties and the dot product of normal
      * and light vector.
+     *
      * @param material The material of the intersected geometry.
-     * @param nl The dot product of normal vector and light vector.
+     * @param nl       The dot product of normal vector and light vector.
      * @return The diffuse reflection color.
      */
     private Double3 calcDiffusive(Material material, double nl) {
@@ -79,11 +85,12 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculates the specular reflection color based on the material properties, light vector, normal vector,
      * and the viewing vector.
-     * @param material The material of the intersected geometry.
-     * @param normal The normal vector at the intersection point.
+     *
+     * @param material    The material of the intersected geometry.
+     * @param normal      The normal vector at the intersection point.
      * @param lightVector The vector towards the light source.
-     * @param nl The dot product of normal vector and light vector.
-     * @param vector The direction vector of the viewing ray.
+     * @param nl          The dot product of normal vector and light vector.
+     * @param vector      The direction vector of the viewing ray.
      * @return The specular reflection color.
      */
     private Double3 calcSpecular(Material material, Vector normal, Vector lightVector, double nl, Vector vector) {

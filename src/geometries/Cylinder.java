@@ -19,7 +19,7 @@ public class Cylinder extends Tube {
      * Constructs a new Cylinder with the specified height, axis, and radius.
      *
      * @param myHeight the height of the cylinder
-     * @param myAxis the central axis of the cylinder
+     * @param myAxis   the central axis of the cylinder
      * @param myRadius the radius of the cylinder
      */
     public Cylinder(double myHeight, Ray myAxis, double myRadius) {
@@ -50,11 +50,11 @@ public class Cylinder extends Tube {
         double t = u.dotProduct(v);
 
         //if the given point is at the base of the cylinder, return direction vector
-        if (t == 0 || height - t==0)
+        if (t == 0 || height - t == 0)
             return v;
 
         //Calculates the other point on the axis facing the given point
-        Point p1= p0.add(v.scale(t));
+        Point p1 = p0.add(v.scale(t));
 
         //return the normalized vector
         return point.subtract(p1).normalize();

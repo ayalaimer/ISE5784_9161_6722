@@ -1,8 +1,7 @@
 package geometries;
 
-import primitives.Point;
 import primitives.Ray;
-import java.util.Collections;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +15,8 @@ public class Geometries extends Intersectable {
     /**
      * Default constructor. Initializes an empty list of geometries.
      */
-    public Geometries() {}
+    public Geometries() {
+    }
 
     /**
      * Constructor that initializes the list with the given geometries.

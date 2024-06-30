@@ -7,14 +7,13 @@ package primitives;
 public class Point {
 
     /**
-     * The coordinates of the point.
-     */
-    protected final Double3 xyz;
-
-    /**
      * A constant representing the origin point (0, 0, 0).
      */
     public static final Point ZERO = new Point(0, 0, 0);
+    /**
+     * The coordinates of the point.
+     */
+    protected final Double3 xyz;
 
     /**
      * Constructs a new Point with the specified x, y, and z coordinates.
@@ -82,6 +81,7 @@ public class Point {
     public Point add(Vector other) {
         return new Point(this.xyz.add(other.xyz));
     }
+
     /**
      * Computes the squared distance between this point and the specified point.
      *
@@ -94,6 +94,7 @@ public class Point {
         double dz = this.xyz.d3 - other.xyz.d3;
         return dx * dx + dy * dy + dz * dz;
     }
+
     /**
      * Computes the distance between this point and the specified point.
      *

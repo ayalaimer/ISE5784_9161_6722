@@ -5,7 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TubeTest {
 
@@ -20,7 +21,7 @@ class TubeTest {
      */
     @Test
     void testGetNormal() {
-        Tube tube=new Tube(new Ray(new Point(0,0,0),new Vector(0,1,0)),1);
+        Tube tube = new Tube(new Ray(new Point(0, 0, 0), new Vector(0, 1, 0)), 1);
         // ============ Equivalence Partitions Tests ==============
         // TC01: There is a simple single test here - using a quad
         // ensure there are no exceptions
@@ -48,6 +49,6 @@ class TubeTest {
         // ensure |result| = 1
         assertEquals(1, result1.length(), DELTA,
                 "Tube's normal is not a unit vector");
- }
+    }
 
 }

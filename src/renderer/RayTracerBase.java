@@ -12,11 +12,14 @@ import scene.Scene;
  */
 public abstract class RayTracerBase {
 
-    /** The Scene object containing all the objects to be rendered. */
+    /**
+     * The Scene object containing all the objects to be rendered.
+     */
     protected Scene scene;
 
     /**
      * Constructor for the RayTracerBase class.
+     *
      * @param scene The Scene object containing all the objects to be rendered.
      */
     public RayTracerBase(Scene scene) {
@@ -26,6 +29,7 @@ public abstract class RayTracerBase {
 
     /**
      * Abstract method to trace a Ray and calculate the resulting color.
+     *
      * @param ray The Ray object to trace.
      * @return The Color of the object at the intersection point with the Ray.
      */

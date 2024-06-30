@@ -1,10 +1,12 @@
 package geometries;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
-import static primitives.Util.*;
+import static primitives.Util.alignZero;
 
 public class Triangle extends Polygon {
 
@@ -43,10 +45,9 @@ public class Triangle extends Polygon {
         double vn3 = alignZero(ray.getDirection().dotProduct(n3));
 
         // Check if the ray intersects the triangle
-        if((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) {
+        if ((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) {
             return List.of(new GeoPoint(this, pointList.get(0).point));
-        }
-        else {
+        } else {
             return null;
         }
     }

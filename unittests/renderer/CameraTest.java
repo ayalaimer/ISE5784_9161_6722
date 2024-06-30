@@ -1,35 +1,39 @@
 package renderer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
-import primitives.*;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 import scene.Scene;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Testing Camera Class.
  * This class contains unit tests for the {@link renderer.Camera} class,
  * specifically for the method {@link renderer.Camera#constructRay(int, int, int, int)}.
  * These tests cover both equivalence partitions and boundary values.
- *
+ * <p>
  * The camera is built using the {@link renderer.Camera.Builder} class.
- *
+ * <p>
  * The tests verify that the rays constructed by the camera are as expected for
  * different view plane configurations and pixel coordinates.
  */
 class CameraTests {
-    /** Camera builder for the tests. */
+    /**
+     * Camera builder for the tests.
+     */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
             .setRayTracer(new SimpleRayTracer(new Scene("empty")))
             .setLocation(Point.ZERO)
             .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
             .setVpDistance(10)
-            .setVpSize(3,3)
-            .setImageWriter(new ImageWriter("empty",1,1));
+            .setVpSize(3, 3)
+            .setImageWriter(new ImageWriter("empty", 1, 1));
 
     /**
      * Test method for {@link renderer.Camera#constructRay(int, int, int, int)}.
-     *
+     * <p>
      * This test method includes several test cases:
      *
      * <ul>

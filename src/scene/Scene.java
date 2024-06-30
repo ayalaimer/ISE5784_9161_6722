@@ -14,16 +14,36 @@ import static primitives.Color.BLACK;
  * Represents a scene in the 3D world, containing geometries, lighting, and background color.
  */
 public class Scene {
-    /** The name of the scene */
+    /**
+     * The name of the scene
+     */
     public String name;
-    /** The list of light sources in the scene. */
+    /**
+     * The list of light sources in the scene.
+     */
     public List<LightSource> lights = new LinkedList<>();
-    /** The background color of the scene, default is black */
+    /**
+     * The background color of the scene, default is black
+     */
     public Color background = BLACK;
-    /** The ambient light of the scene, default is no ambient light */
+    /**
+     * The ambient light of the scene, default is no ambient light
+     */
     public AmbientLight ambientLight = AmbientLight.NONE;
-    /** The collection of geometries in the scene */
+    /**
+     * The collection of geometries in the scene
+     */
     public Geometries geometries = new Geometries();
+
+    /**
+     * Constructs a new Scene with the specified name.
+     *
+     * @param name The name of the scene.
+     */
+    public Scene(String name) {
+        this.name = name;
+    }
+
     /**
      * Sets the list of light sources in the scene.
      *
@@ -66,14 +86,5 @@ public class Scene {
     public Scene setGeometries(Geometries geometries) {
         this.geometries = geometries;
         return this;
-    }
-
-    /**
-     * Constructs a new Scene with the specified name.
-     *
-     * @param name The name of the scene.
-     */
-    public Scene(String name) {
-        this.name = name;
     }
 }

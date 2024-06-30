@@ -5,7 +5,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for {@link geometries.Cylinder} class.
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CylinderTest {
     @Test
     void getNormal() {
-        Cylinder cylinder=new Cylinder(1,new Ray(new Point(0,0,0),new Vector(0,0,1)),1);
+        Cylinder cylinder = new Cylinder(1, new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 1);
         // ============ Equivalence Partitions Tests ==============
         // Test that check normal when point is on casing
         // ensure there are no exceptions
@@ -42,7 +43,6 @@ class CylinderTest {
                 "Cylinder's normal is not a unit vector");
 
 
-
         //test when point is on the base 2
         // ensure there are no exceptions
         assertDoesNotThrow(() -> cylinder.getNormal(new Point(0.25, 0.25, 0)),
@@ -54,7 +54,6 @@ class CylinderTest {
         // ensure |result| = 1
         assertEquals(1, result3.length(), DELTA,
                 "Cylinder's normal is not a unit vector");
-
 
 
         // =============== Boundary Values Tests ==================
@@ -81,11 +80,11 @@ class CylinderTest {
                 "Cylinder's normal is not a unit vector");
 
 
-        assertDoesNotThrow(() -> cylinder.getNormal(new Point(0,0,0)),
+        assertDoesNotThrow(() -> cylinder.getNormal(new Point(0, 0, 0)),
                 "ERROR:throws wrong exception");
 
         // generate the test result
-        Vector result6 = cylinder.getNormal(new Point(0,0,0));
+        Vector result6 = cylinder.getNormal(new Point(0, 0, 0));
 
         // ensure |result| = 1
         assertEquals(1, result6.length(), DELTA,
@@ -101,6 +100,6 @@ class CylinderTest {
         // ensure |result| = 1
         assertEquals(1, result7.length(), DELTA,
                 "Cylinder's normal is not a unit vector");
- }
+    }
 
 }
