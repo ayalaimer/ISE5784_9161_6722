@@ -1,8 +1,8 @@
 package geometries;
 
 import primitives.Point;
-import primitives.Vector;
 import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
@@ -41,18 +41,19 @@ public class Tube extends RadialGeometry {
         /*
          * caculates the length of the projection of the vector from p to head
          */
-        double t =(axis.getDirection()).dotProduct(p.subtract(axis.getHead()));
+        double t = (axis.getDirection()).dotProduct(p.subtract(axis.getHead()));
         /*
           if the degree between direction and p-head is not 90
          */
-        if(t!=0) {
+        if (t != 0) {
             Point o = (axis.getHead()).add((axis.getDirection()).scale(t));
             return (p.subtract(o)).normalize();
         }
 
         return (p.subtract(axis.getHead())).normalize();
 
-}
+    }
+
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return List.of();

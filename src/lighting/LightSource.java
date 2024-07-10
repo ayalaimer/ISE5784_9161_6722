@@ -1,6 +1,8 @@
 package lighting;
 
-import primitives.*;
+import primitives.Color;
+import primitives.Point;
+import primitives.Vector;
 
 /**
  * Interface representing a light source in the scene.

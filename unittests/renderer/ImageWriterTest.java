@@ -3,7 +3,7 @@ package renderer;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static java.awt.Color.*;
 
 class ImageWriterTest {
 
@@ -22,9 +22,9 @@ class ImageWriterTest {
             for (int j = 0; j < imageWriter.getNx(); j++) {
                 // If the pixel is on a multiple of 50, set it to black, otherwise set it to pink
                 if (i % 50 == 0 || j % 50 == 0)
-                    imageWriter.writePixel(j, i, new Color(0, 0, 0)); // set pixel to black
+                    imageWriter.writePixel(j, i, new Color(BLACK)); // set pixel to black
                 else
-                    imageWriter.writePixel(j, i, new Color(255, 0, 255)); // set pixel to pink
+                    imageWriter.writePixel(j, i, new Color(PINK)); // set pixel to pink
             }
         }
 

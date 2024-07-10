@@ -1,15 +1,21 @@
 package geometries;
 
-import primitives.*;
 import org.junit.jupiter.api.Test;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static primitives.Util.isZero;
 
-/** The class is a JUnit test class used to test the functionality of the Plane class */
+/**
+ * The class is a JUnit test class used to test the functionality of the Plane class
+ */
 class PlaneTests {
 
-    /** Test method for {@link geometries.Plane#Plane(Point, Point, Point)}. */
+    /**
+     * Test method for {@link geometries.Plane#Plane(Point, Point, Point)}.
+     */
     @Test
     void testConstructor() {
 
@@ -36,7 +42,9 @@ class PlaneTests {
                 "Constructed a plane with collinear vertices");
     }
 
-    /** Test method for {@link geometries.Plane#getNormal(primitives.Point)} */
+    /**
+     * Test method for {@link geometries.Plane#getNormal(primitives.Point)}
+     */
     @Test
     void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
@@ -58,7 +66,9 @@ class PlaneTests {
                 "Plane's normal is not orthogonal to the plane");
     }
 
-    /** Test method for {@link geometries.Plane#findGeoIntersectionsHelper(Ray)}. */
+    /**
+     * Test method for {@link geometries.Plane#findGeoIntersectionsHelper(Ray)}.
+     */
     @Test
     void testFindIntersections() {
         Plane pl = new Plane(new Point(0, 0, 2), new Point(1, 0, 2), new Point(0, 1, 2));

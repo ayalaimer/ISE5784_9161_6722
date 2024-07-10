@@ -17,11 +17,11 @@ public class Sphere extends RadialGeometry {
     /**
      * create a new Sphere object with the specified point and radius
      *
-     * @param radius the length of the radius of the sphere
      * @param center the point that represent the center of the sphere.
      *               or in other words, the point that has the same distance (radius) to all points on the sphere.
+     * @param radius the length of the radius of the sphere
      */
-    public Sphere(double radius, Point center) {
+    public Sphere(Point center, double radius) {
         super(radius); //call to the father constructor with the radius
         this.center = center;
     }
@@ -74,9 +74,9 @@ public class Sphere extends RadialGeometry {
         if (t1 > 0 && t2 > 0) {
             return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
         } else if (t1 > 0) {
-            return List.of(new GeoPoint(this,ray.getPoint(t1)));
+            return List.of(new GeoPoint(this, ray.getPoint(t1)));
         } else if (t2 > 0) {
-            return List.of(new GeoPoint(this,ray.getPoint(t2)));
+            return List.of(new GeoPoint(this, ray.getPoint(t2)));
         } else {
             return null;
         }

@@ -1,12 +1,14 @@
 package geometries;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
 
 import java.util.List;
 
-import primitives.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * The class is a JUnit test class used to test the functionality of the Sphere class.
@@ -20,7 +22,7 @@ class SphereTests {
     void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
         // TC01: Simple test
-        Sphere sphere = new Sphere(1, new Point(0, 0, 0));
+        Sphere sphere = new Sphere(new Point(0, 0, 0), 1);
         Point p = new Point(1, 0, 0);
         Vector result = sphere.getNormal(p);
         // ensure normal = (1, 0 , 0)
@@ -29,10 +31,12 @@ class SphereTests {
         assertEquals(1, result.length(), 0.00000001, "Triangle's normal is not a unit vector");
     }
 
-    /** Test method for {@link geometries.Sphere#findGeoIntersectionsHelper(primitives.Ray)}. */
+    /**
+     * Test method for {@link geometries.Sphere#findGeoIntersectionsHelper(primitives.Ray)}.
+     */
     @Test
     public void testFindIntersections() {
-        Sphere sphere = new Sphere(1d, new Point(1, 0, 0));
+        Sphere sphere = new Sphere(new Point(1, 0, 0), 1d);
 
         // ============ Equivalence Partitions Tests ==============
 

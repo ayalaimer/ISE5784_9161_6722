@@ -1,9 +1,9 @@
 package primitives;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for {@link primitives.Vector} class.
@@ -30,7 +30,7 @@ public class VectorTest {
         Vector v = new Vector(coordinates);
         assertEquals(coordinates, v.xyz);
         assertThrows(IllegalArgumentException.class,
-                () -> new Vector(0,0,0),
+                () -> new Vector(0, 0, 0),
                 "Error: value cannot be Zero");
     }
 
@@ -135,7 +135,7 @@ public class VectorTest {
         // ============ Equivalence Partitions Tests ==============
         Vector v = new Vector(3.0, 0.0, 4.0);
         Vector normalized = v.normalize();
-        assertEquals(new Vector(0.6, 0.0, 0.8),normalized);
+        assertEquals(new Vector(0.6, 0.0, 0.8), normalized);
 
         // =============== Boundary Values Tests ==================
         // Check that the normalized vector is a unit vector
