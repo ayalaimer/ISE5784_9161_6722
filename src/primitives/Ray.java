@@ -10,7 +10,8 @@ import static primitives.Util.isZero;
 public class Ray {
     private final Point head;
     private final Vector direction;
-
+    /** A small constant value used to slightly move the origin of the shadow rays to avoid self-shadowing. */
+    private static final double DELTA = 0.1;
     /**
      * Constructor to initialize the Ray with a head point and a direction vector.
      * The direction vector is normalized.
@@ -21,6 +22,19 @@ public class Ray {
     public Ray(Point head, Vector direction) {
         this.head = head;
         this.direction = direction.normalize(); // Using the normalized method of Vector
+    }
+    /**
+     * Constructs a new Ray object with the specified starting point, direction, and normal.
+     * The starting point is moved slightly in the direction of the normal to avoid self-shadowing.
+     * @param p The starting point of the ray.
+     * @param direction The direction of the ray.
+     * @param n The normal vector at the starting point.
+     */
+    public Ray(Point p, Vector direction, Vector n) {
+        this.direction = direction.normalize();
+        double nv = n.dotProduct(this.direction);
+        Vector dltVector=n.scale(nv<0 ? -DELTA : DELTA);//move the normal a bit by delta
+        head = p.add(dltVector);
     }
 
     /**

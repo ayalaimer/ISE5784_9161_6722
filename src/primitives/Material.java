@@ -13,6 +13,10 @@ public class Material {
      * Specular reflection coefficient.
      */
     public Double3 kS = Double3.ZERO;
+    /** Transparency attenuation coefficient. */
+    public Double3 kT = Double3.ZERO;
+    /** Reflection attenuation coefficient. */
+    public Double3 kR = Double3.ZERO;
     /**
      * Shininess coefficient for specular reflection.
      */
@@ -24,11 +28,48 @@ public class Material {
      * @param kD The diffuse reflection coefficient.
      * @return The current instance of Material (for chaining calls).
      */
+
     public Material setKd(Double3 kD) {
         this.kD = kD;
         return this;
     }
+    /**
+     * Sets the transparency attenuation coefficient.
+     * @param kT The transparency attenuation coefficient.
+     * @return The current instance of Material (for chaining calls).
+     */
+    public Material setKt(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+    /**
+     * Sets the transparency attenuation coefficient using a single double value.
+     * @param kT The transparency attenuation coefficient.
+     * @return The current instance of Material (for chaining calls).
+     */
+    public Material setKt(double kT) {
+        this.kT = new Double3(kT);
+        return this;
+    }
 
+    /**
+     * Sets the reflection attenuation coefficient using a single double value.
+     * @param kR The reflection attenuation coefficient.
+     * @return The current instance of Material (for chaining calls).
+     */
+    public Material setKr(double kR) {
+        this.kR = new Double3(kR);
+        return this;
+    }
+    /**
+     * Sets the reflection attenuation coefficient.
+     * @param kR The reflection attenuation coefficient.
+     * @return The current instance of Material (for chaining calls).
+     */
+    public Material setKr(Double3 kR) {
+        this.kR = kR;
+        return this;
+    }
     /**
      * Sets the specular reflection coefficient.
      *
