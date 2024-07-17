@@ -59,6 +59,13 @@ public abstract class Intersectable {
             this.point = point;
         }
 
+        /**
+         * Checks if this GeoPoint is equal to another object.
+         * Two GeoPoints are equal if they have the same geometry and point.
+         *
+         * @param object the object to compare to
+         * @return true if the objects are equal, false otherwise
+         */
         @Override
         public boolean equals(Object object) {
             if (this == object) return true;
@@ -68,6 +75,11 @@ public abstract class Intersectable {
             return false;
         }
 
+        /**
+         * Returns a string representation of the GeoPoint.
+         *
+         * @return a string representation of the GeoPoint
+         */
         @Override
         public String toString() {
             return "GeoPoint{" +

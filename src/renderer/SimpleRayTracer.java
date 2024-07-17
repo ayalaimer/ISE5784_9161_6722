@@ -16,7 +16,7 @@ import static primitives.Util.isZero;
  */
 public class SimpleRayTracer extends RayTracerBase {
 //    /** A small constant value used to slightly move the origin of the shadow rays to avoid self-shadowing. */
-//    private static final double DELTA = 0.1;
+    private static final double DELTA = 0.1;
     /** Maximum recursion level for calculating global effects (reflection/refraction). */
     private static final int MAX_CALC_COLOR_LEVEL = 10;
     /** Minimum factor for calculating color contribution. */
@@ -192,30 +192,6 @@ public class SimpleRayTracer extends RayTracerBase {
         return cosTeta <= 0 ? Double3.ZERO : material.kS.scale(Math.pow(cosTeta, material.Shininess));
     }
 
-//    /**
-//     * Checks if a point on a geometry is not shadowed by other geometries.
-//     * @param gp    The intersection point on the geometry.
-//     * @param l     The direction vector from the point to the light source.
-//     * @param n     The normal vector at the intersection point.
-//     * @param light The light source being considered.
-//     * @param nl    The dot product of normal vector and light vector.
-//     * @return true if the point is not shadowed, false otherwise.
-//     */
-//    private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource light, double nl) {
-//        Vector lDir = l.scale(-1);
-//        Vector epsVector = n.scale(nl < 0 ? DELTA : -DELTA);
-//        Point point = gp.point.add(epsVector);
-//        Ray lightRay = new Ray(point, lDir);
-//        List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay, light.getDistance(gp.point));
-//        if (intersections == null) return true;
-//        for (GeoPoint intersectionPoint : intersections) {
-//            if (intersectionPoint.point.distance(gp.point) < light.getDistance(gp.point)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-
     /**
      * Calculates the transparency factor for a given intersection point and light source.
      * @param gp  The intersection point on the geometry.
@@ -224,23 +200,31 @@ public class SimpleRayTracer extends RayTracerBase {
      * @param n   The normal vector at the intersection point.
      * @return The transparency factor.
      */
-    private Double3 transparency(GeoPoint gp, LightSource ls, Vector l, Vector n){
+    private Double3 transparency(GeoPoint gp, LightSource ls, Vector l, Vector n) {
+        // Invert the light direction vector to point from the geometry to the light source
         Vector lDir = l.scale(-1);
-        Ray lightRay = new Ray(gp.point ,lDir ,n);
+        // Create a ray from the intersection point in the direction of the light source
+        Ray lightRay = new Ray(gp.point, lDir, n);
+        // Find intersections of the light ray with other geometries in the scene
         List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+        // If there are no intersections, return full transparency
         if (intersections == null)
             return Double3.ONE;
-
+        // Initialize the transparency factor to full transparency
         Double3 ktr = Double3.ONE;
-
+        // Iterate over all intersection points to calculate the transparency factor
         for (GeoPoint intersectionPoint : intersections) {
+            // Check if the intersection point is within the light's reach
             if (alignZero(intersectionPoint.point.distance(gp.point) - ls.getDistance(gp.point)) <= 0) {
+                // Update the transparency factor based on the material's transparency property
                 ktr = ktr.product(intersectionPoint.geometry.getMaterial().kT);
+
+                // If the transparency factor becomes zero, break the loop as no light passes through
                 if (ktr.equals(Double3.ZERO))
                     break;
             }
         }
-
+        // Return the calculated transparency factor
         return ktr;
     }
 
