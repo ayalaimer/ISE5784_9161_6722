@@ -54,6 +54,8 @@ public class ShowEffectsTest {
                 new DirectionalLight(new Color(100, 50, 50), new Vector(1, -1, -1))
         );
 
+        //scene.setBackground(new Color(75,127,90));
+
         // Setting up the camera and rendering the image
         cameraBuilder.setLocation(new Point(0, 0, 1500)).setVpDistance(1000)
                 .setVpSize(200, 200)
