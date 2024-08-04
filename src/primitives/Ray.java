@@ -1,7 +1,9 @@
 package primitives;
 
 import geometries.Intersectable.GeoPoint;
+import renderer.BlackBoard;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,6 +101,18 @@ public class Ray {
         return points == null || points.isEmpty() ? null
                 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
+    /** Calculates a beam of rays for a blackboard.
+     * @param blackBoard The blackboard used to calculate the rays.
+     * @return A list of rays calculated for the blackboard.
+     */
+    public List<Ray> calculateBeam(BlackBoard blackBoard) {
+        List<Ray> rays = new LinkedList<>();
+        List<Point> points = blackBoard.setRays(this);
+        for (Point point : points) {
+            rays.add(new Ray(head, point.subtract(head)));
+        }
+        return rays;
+    }
 
     /**
      * Finds the closest GeoPoint to a given reference point.
@@ -131,5 +145,6 @@ public class Ray {
         // Return the closest point found
         return closestPoint;
     }
+
 
 }

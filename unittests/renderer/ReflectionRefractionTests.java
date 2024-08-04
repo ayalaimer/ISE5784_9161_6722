@@ -48,7 +48,7 @@ public class ReflectionRefractionTests {
                 .setVpSize(150, 150)
                 .setImageWriter(new ImageWriter("refractionTwoSpheres", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -83,7 +83,7 @@ public class ReflectionRefractionTests {
                 .setVpSize(2500, 2500)
                 .setImageWriter(new ImageWriter("reflectionTwoSpheresMirrored", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -114,7 +114,7 @@ public class ReflectionRefractionTests {
                 .setVpSize(200, 200)
                 .setImageWriter(new ImageWriter("refractionShadow", 600, 600))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 

@@ -7,7 +7,6 @@ import lighting.*;
 import primitives.*;
 import scene.Scene;
 
-
 public class HouseSceneTest {
 
     private final Scene scene = new Scene("House Scene");
@@ -18,25 +17,18 @@ public class HouseSceneTest {
     @Test
     public void HouseScene() {
 
-        /**
-         * Create ground plane
-         */
+        // Create ground plane
         scene.geometries.add(
                 new Plane(new Point(0, -50, 0), new Vector(0, 1, 0))
                         .setEmission(new Color(80, 160, 80)) // Green ground
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30))
         );
 
-        /**
-         * Create house base
-         */
+        // Create house base
         double houseWidth = 200;
         double houseHeight = 150;
 
-
-        /**
-         * Front wall
-         */
+        // Front wall
         scene.geometries.add(
                 new Polygon(
                         new Point(-houseWidth, -50, -400),
@@ -47,9 +39,7 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30))
         );
 
-        /**
-         * Side wall
-         */
+        // Side wall
         scene.geometries.add(
                 new Polygon(
                         new Point(houseWidth, -50, -400),
@@ -60,9 +50,7 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30))
         );
 
-        /**
-         * Roof
-         */
+        // Roof
         scene.geometries.add(
                 new Triangle(
                         new Point(-houseWidth, houseHeight - 50, -400),
@@ -72,9 +60,7 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30))
         );
 
-        /**
-         * Side of the roof
-         */
+        // Side of the roof
         scene.geometries.add(
                 new Triangle(
                         new Point(houseWidth, houseHeight - 50, -400),
@@ -84,16 +70,12 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30))
         );
 
-        /**
-         * Create door
-         */
+        // Create door
         double doorWidth = 40;
         double doorHeight = 80;
         Point doorBottomLeft = new Point(-doorWidth / 2, -50, -399.9); // Slightly in front of the wall
 
-        /**
-         * Door frame
-         */
+        // Door frame
         scene.geometries.add(
                 new Polygon(
                         doorBottomLeft,
@@ -104,9 +86,7 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(30))
         );
 
-        /**
-         * Door panel (slightly smaller and positioned inside the frame)
-         */
+        // Door panel (slightly smaller and positioned inside the frame)
         double panelMargin = 2; // Margin for the panel inside the frame
         Point panelBottomLeft = doorBottomLeft.add(new Vector(panelMargin, panelMargin, 0.1));
         scene.geometries.add(
@@ -119,9 +99,7 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.6).setKs(0.4).setShininess(30))
         );
 
-        /**
-         * Door handle
-         */
+        // Door handle
         Point handleCenter = doorBottomLeft.add(new Vector(doorWidth * 0.8, doorHeight / 2, 0.2));
         scene.geometries.add(
                 new Sphere(handleCenter, 2)
@@ -129,9 +107,7 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.4).setKs(0.6).setShininess(100))
         );
 
-        /**
-         * Path to the door
-         */
+        // Path to the door
         scene.geometries.add(
                 new Polygon(
                         new Point(-50, -49.9, -399),
@@ -142,53 +118,37 @@ public class HouseSceneTest {
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30))
         );
 
-        /**
-         * Left flower beds
-         */
+        // Left flower beds
         createFlowerBed(new Point(-houseWidth - 230, -50, -200));
         createFlowerBed(new Point(-houseWidth - 200, -50, -500));
 
-        /**
-         * Right flower beds
-         */
+        // Right flower beds
         createFlowerBed(new Point(houseWidth + 10, -50, -200));
         createFlowerBed(new Point(houseWidth + 50, -50, -500));
 
-        /**
-         * Right bushes
-         */
+        // Right bushes
         createBush(new Point(70, -45, -350));
         createBush(new Point(120, -50, -300));
         createBush(new Point(100, -50, -250));
 
-        /**
-         * Left bushes
-         */
+        // Left bushes
         createBush(new Point(-150, -45, -300));
         createBush(new Point(-100, -50, -350));
 
-        /**
-         * Left window
-         */
+        // Left window
         createWindow(new Point(-houseWidth + 30, houseHeight/3, -399.8), 50, 50);
 
-        /**
-         * Right window
-         */
+        // Right window
         createWindow(new Point(houseWidth - 70, houseHeight/3, -399.8), 50, 50);
 
-        /**
-         * Sun
-         */
+        // Sun
         scene.geometries.add(
                 new Sphere(new Point(150, 300, -600), 55d)
                         .setEmission(new Color(255, 255, 0))
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30).setKt(0.6))
         );
 
-        /**
-         * Clouds
-         */
+        // Clouds
         createCloud(new Point(-100, 300, -500), 50);
         createCloud(new Point(100, 400, -550), 40);
         createCloud(new Point(200, 450, -500), 45);
@@ -196,9 +156,7 @@ public class HouseSceneTest {
         createCloud(new Point(-500, 400, -550), 60);
         createCloud(new Point(350, 350, -500), 50);
 
-        /**
-         * Adding lights to the scene
-         */
+        // Adding lights to the scene
         scene.lights.add(
                 new DirectionalLight(new Color(255, 255, 224), new Vector(1, -1, -1))
         );
@@ -212,24 +170,20 @@ public class HouseSceneTest {
         );
         scene.setAmbientLight(new AmbientLight(new Color(WHITE), 0.015));
 
-        /**
-         * Background
-         */
+        // Background
         scene.background = new Color(135, 206, 250); // Light sky blue background
 
-        /**
-         * Setting up the camera and rendering the image
-         */
+        // Setting up the camera and rendering the image
         cameraBuilder.setLocation(new Point(0, 50, 700)).setVpDistance(500)
                 .setVpSize(500, 500)
                 .setImageWriter(new ImageWriter("HouseScene", 800, 800))
                 .build()
-                .renderImage()
+                .renderImage(5)
                 .writeToImage();
     }
 
     /**
-     * Creates a flower bed around center point
+     * Creates a flower bed around center point.
      * @param center The center point of the flower bed
      */
     private void createFlowerBed(Point center) {
@@ -244,7 +198,7 @@ public class HouseSceneTest {
     }
 
     /**
-     * Creates one flower at the specified base point
+     * Creates one flower at the specified base point.
      * @param base The base point of the flower
      */
     private void createFlower(Point base) {
@@ -299,7 +253,7 @@ public class HouseSceneTest {
     }
 
     /**
-     * Creates a bush around center point
+     * Creates a bush around center point.
      * @param center The center point of the bush
      */
     private void createBush(Point center) {
@@ -317,7 +271,7 @@ public class HouseSceneTest {
     }
 
     /**
-     * Creates a cloud around center point
+     * Creates a cloud around center point.
      * @param center The center point of the cloud
      * @param radius The radius of the spheres that make up the cloud
      */
@@ -336,7 +290,7 @@ public class HouseSceneTest {
     }
 
     /**
-     * Creates a simple window at the specified top-left point
+     * Creates a simple window at the specified top-left point.
      * @param topLeft The top-left point of the window
      * @param width The width of the window
      * @param height The height of the window

@@ -145,7 +145,7 @@ public class LightsTests {
 
         camera1.setImageWriter(new ImageWriter("lightSphereDirectional", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -160,7 +160,7 @@ public class LightsTests {
 
         camera1.setImageWriter(new ImageWriter("lightSpherePoint", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -175,7 +175,7 @@ public class LightsTests {
 
         camera1.setImageWriter(new ImageWriter("lightSphereSpot", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -189,7 +189,7 @@ public class LightsTests {
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesDirectional", 500, 500)) //
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -204,7 +204,7 @@ public class LightsTests {
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesPoint", 500, 500)) //
                 .build() //
-                .renderImage() //
+                .renderImage(1) //
                 .writeToImage(); //
     }
 
@@ -219,7 +219,7 @@ public class LightsTests {
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesSpot", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -236,7 +236,7 @@ public class LightsTests {
 
         camera1.setImageWriter(new ImageWriter("lightSphereSpotSharp", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 
@@ -251,7 +251,7 @@ public class LightsTests {
 
         camera2.setImageWriter(new ImageWriter("lightTrianglesSpotSharp", 500, 500))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 

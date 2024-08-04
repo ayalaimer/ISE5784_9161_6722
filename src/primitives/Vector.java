@@ -97,6 +97,23 @@ public class Vector extends Point {
     public double length() {
         return Math.sqrt(lengthSquared());
     }
+
+    public Vector getOrthogonalVector() {
+        Vector referenceVector;
+
+        // If the vector is parallel to (0, 1, 0), use (1, 0, 0) instead
+        if (Util.isZero(this.dotProduct(new Vector(0, 1, 0)))) {
+            referenceVector = new Vector(1, 0, 0);
+        } else {
+            referenceVector = new Vector(0, 1, 0);
+        }
+
+        // Calculate the orthogonal vector using cross product
+        Vector orthogonal = this.crossProduct(referenceVector);
+
+        // Normalize the orthogonal vector
+        return orthogonal.normalize();
+    }
     /**
      * Rotates this vector around a given axis by a specified angle.
      *

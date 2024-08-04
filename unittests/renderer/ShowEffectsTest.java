@@ -61,7 +61,7 @@ public class ShowEffectsTest {
                 .setVpSize(200, 200)
                 .setImageWriter(new ImageWriter("ShowEffectsScene", 600, 600))
                 .build()
-                .renderImage()
+                .renderImage(1)
                 .writeToImage();
     }
 }
