@@ -100,20 +100,7 @@ public class Camera implements Cloneable {
      */
     public static Builder getBuilder() { return new Builder(); }
 
-    /**
-     * Constructs a ray through a specified pixel.
-     * @param nX Number of pixels in width.
-     * @param nY Number of pixels in height.
-     * @param j  Column index of the pixel.
-     * @param i  Row index of the pixel.
-     * @return A ray through the specified pixel.
-     */
-    public Ray constructRay(int nX, int nY, int j, int i) {
-
-        // Verify that nX and nY are not zero to avoid division by zero
-        if (nY == 0 || nX == 0)
-            throw new IllegalArgumentException("It is impossible to divide by 0");
-
+    public Point getPIJ(int nX,int nY, int j, int i){
         // Calculate the center point of the image plane (pC) by moving from the camera location
         // along the viewing direction (vTo) by the specified distance
         Point pC = location.add(vTo.scale(distance));
@@ -138,7 +125,22 @@ public class Camera implements Cloneable {
         if (!isZero(yI)) {
             pIJ = pIJ.add(vUp.scale(yI));
         }
+        return pIJ;
+    }
+    /**
+     * Constructs a ray through a specified pixel.
+     * @param nX Number of pixels in width.
+     * @param nY Number of pixels in height.
+     * @param j  Column index of the pixel.
+     * @param i  Row index of the pixel.
+     * @return A ray through the specified pixel.
+     */
+    public Ray constructRay(int nX, int nY, int j, int i) {
 
+        // Verify that nX and nY are not zero to avoid division by zero
+        if (nY == 0 || nX == 0)
+            throw new IllegalArgumentException("It is impossible to divide by 0");
+        Point pIJ=getPIJ(nX, nY, j, i);
         // Create and return a new Ray from the camera location (location) towards the calculated point (Pij)
         return new Ray(location, pIJ.subtract(location));
     }
@@ -213,9 +215,10 @@ public class Camera implements Cloneable {
      * @param color The initial color to add to.
      * @return The average color from the list of rays.
      */
-    private Color AvrageColor(List<Ray> rays, Color color) {
+    private Color avrageColor(List<Ray> rays, Color color) {
         if(rays.isEmpty())
             return Color.BLACK;
+
         for (Ray ray : rays) {
             color = color.add(rayTracer.traceRay(ray));
         }
@@ -239,38 +242,62 @@ public class Camera implements Cloneable {
             Ray ray = constructRay(nX, nY, column, row);
             color = rayTracer.traceRay(ray);
         } else {
-            boolean colorsDifferernt = false;
+            // boolean colorsDifferernt = false;
             if(isAdaptiveSampling) {
-                // Trace multiple rays (adaptive super-sampling)
-                List<Ray> rays = constructRays(nX, nY, column, row, 4);
-                if (!rays.isEmpty()) {
-                    // Handle empty rays list, if applicable
-                    Color firstColor = rayTracer.traceRay(rays.get(0));
-                    // Check if all rays produce the same color
-                    for (Ray ray : rays) {
-                        Color currentColor = rayTracer.traceRay(ray);
-                        if (!currentColor.equals(firstColor)) {
-                            colorsDifferernt = true;
-                            break;
-                        }
-                    }
-                    if (colorsDifferernt) {
-                        rays = constructRays(nX, nY, column, row, numRays);
-                        color = AvrageColor(rays, color);
-                    } else {
-                        color = firstColor;
-                    }
-                }
+                double rY = height / nY;
+                double rX = width / nX;
+                double sY = rY /numRays;
+                double sX = rX / numRays;
+                Point pIJ=getPIJ(nX,nY,column,row);
+                color= adaptiveSuperSampling(pIJ, rX, rY, sX, sY);
             } else {
                 // Trace multiple rays (regular super-sampling)
                 List<Ray> rays = constructRays(nX, nY, column, row, numRays);
-                color = AvrageColor(rays, color);
+                color = avrageColor(rays, color);
             }
         }
-
         // Write the computed color to the image and mark the pixel as done
         imageWriter.writePixel(column, row, color);
         pixelManager.pixelDone();
+    }
+
+    public Color adaptiveSuperSampling(Point pC, double width, double height, double minW, double minH ){
+        if (width < minW * 2 || height < minH * 2) {
+            return rayTracer.traceRay(new Ray(location, pC.subtract(location)));}
+        Point tempCorner;
+        Ray tempRay;
+        List<Point>nextPCs= new LinkedList<>();
+        List<Color>cornerColors=new LinkedList<>();
+        for (int i = -1; i <= 1; i += 2)
+            for (int j = -1; j <= 1; j += 2) {
+                tempCorner = pC.add(vRight.scale(i * width / 2)).add(vUp.scale(j * height / 2));
+                tempRay = new Ray(location, tempCorner.subtract(location));
+                cornerColors.add(rayTracer.traceRay(tempRay));
+                nextPCs.add(pC.add(vRight.scale(i * width / 4)).add(vUp.scale(j * height / 4)));
+            }
+        boolean isAllEquals = true;
+        Color tempColor = cornerColors.getFirst();
+        for(Color color: cornerColors){
+            if(!tempColor.isAlmostEquals(color)) {
+                isAllEquals = false;
+                break;
+            }
+        }
+        if (isAllEquals)
+            return tempColor;
+
+        tempColor = Color.BLACK;
+        for(Point pc: nextPCs){
+            tempColor=tempColor
+                    .add(adaptiveSuperSampling(pc, width / 2, height / 2, minW, minH));
+        }
+        Color currentFinal=tempColor.reduce(nextPCs.size());;
+        return currentFinal;
+
+
+
+
+
     }
 
     /**
@@ -518,6 +545,10 @@ public class Camera implements Cloneable {
          */
         public Builder setRayTracer(RayTracerBase rayTracer) {
             this.camera.rayTracer = rayTracer;
+            return this;
+        }
+        public Builder setIsAdaptive(boolean isAdaptiveSampling){
+            camera.isAdaptiveSampling=isAdaptiveSampling;
             return this;
         }
 

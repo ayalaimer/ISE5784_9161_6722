@@ -115,6 +115,18 @@ public class Color {
         if (k < 0.0) throw new IllegalArgumentException("Can't scale a color by a negative number");
         return new Color(rgb.scale(k));
     }
+    /**
+     * Checks whether the different between the colors is [almost] zero
+     * @param color color
+     * @return true if the different between the colors is zero or almost zero, false otherwise
+     */
+
+    public  boolean isAlmostEquals(Color color) {
+
+        return  (Math.abs(rgb.d1-color.rgb.d1)<= 2) &&
+                (Math.abs(rgb.d2-color.rgb.d2)<= 2) &&
+                (Math.abs(rgb.d3-color.rgb.d3)<= 2);
+    }
 
     /**
      * Scale the color by (1 / reduction factor)

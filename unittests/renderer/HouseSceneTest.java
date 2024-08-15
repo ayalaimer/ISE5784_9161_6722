@@ -110,11 +110,12 @@ public class HouseSceneTest {
         // Path to the door
         scene.geometries.add(
                 new Polygon(
-                        new Point(-50, -49.9, -399),
-                        new Point(50, -49.9, -399),
-                        new Point(100, -49.9, -200),
-                        new Point(-100, -49.9, -200)
-                ).setEmission(new Color(180, 180, 180))
+                        new Point(-50, -49.7, -399),
+                        new Point(50, -49.7, -399),
+                        new Point(100, -49.7, -200),
+                        new Point(-100, -49.7, -200)
+                )
+                        .setEmission(new Color(180, 180, 180))
                         .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(30))
         );
 
@@ -128,12 +129,12 @@ public class HouseSceneTest {
 
         // Right bushes
         createBush(new Point(70, -45, -350));
-        createBush(new Point(120, -50, -300));
-        createBush(new Point(100, -50, -250));
+        // createBush(new Point(120, -50, -300));
+        // createBush(new Point(100, -50, -250));
 
         // Left bushes
         createBush(new Point(-150, -45, -300));
-        createBush(new Point(-100, -50, -350));
+        //   createBush(new Point(-100, -50, -350));
 
         // Left window
         createWindow(new Point(-houseWidth + 30, houseHeight/3, -399.8), 50, 50);
@@ -149,11 +150,11 @@ public class HouseSceneTest {
         );
 
         // Clouds
-        createCloud(new Point(-100, 300, -500), 50);
+        createCloud(new Point(-100, 300, -500), 40);
         createCloud(new Point(100, 400, -550), 40);
-        createCloud(new Point(200, 450, -500), 45);
-        createCloud(new Point(-300, 350, -450), 55);
-        createCloud(new Point(-500, 400, -550), 60);
+        // createCloud(new Point(200, 450, -500), 45);
+        createCloud(new Point(-350, 350, -450), 55);
+        // createCloud(new Point(-500, 400, -550), 60);
         createCloud(new Point(350, 350, -500), 50);
 
         // Adding lights to the scene
@@ -175,10 +176,11 @@ public class HouseSceneTest {
 
         // Setting up the camera and rendering the image
         cameraBuilder.setLocation(new Point(0, 50, 700)).setVpDistance(500)
-                .setVpSize(500, 500)
-                .setImageWriter(new ImageWriter("HouseScene", 800, 800))
+                .setVpSize(450, 450)
+                .setImageWriter(new ImageWriter("HouseScene", 1000, 1000))
+                .setIsAdaptive(true)
                 .build()
-                .renderImage(5)
+                .renderImage(17)
                 .writeToImage();
     }
 
@@ -187,7 +189,7 @@ public class HouseSceneTest {
      * @param center The center point of the flower bed
      */
     private void createFlowerBed(Point center) {
-        int flowerCount = 20; // Number of flowers in bed
+        int flowerCount = 5; // Number of flowers in bed
 
         for (int i = 0; i < flowerCount; i++) {
             double offsetX = Math.random() * 200;
@@ -202,7 +204,7 @@ public class HouseSceneTest {
      * @param base The base point of the flower
      */
     private void createFlower(Point base) {
-        double size = 10;
+        double size = 15;
         Color[] petalColors = {
                 new Color(255, 182, 193), // Light Pink
                 new Color(255, 105, 180), // Hot Pink
@@ -276,17 +278,25 @@ public class HouseSceneTest {
      * @param radius The radius of the spheres that make up the cloud
      */
     private void createCloud(Point center, double radius) {
-        for (int i = 0; i < 8; i++) {
-            double offsetX = (Math.random() - 0.5) * radius * 1.5;
-            double offsetY = (Math.random() - 0.5) * radius * 0.5;
-            double offsetZ = (Math.random() - 0.5) * radius * 0.5;
-            double sphereRadius = radius * (0.5 + Math.random() * 0.5);
-            scene.geometries.add(
-                    new Sphere(center.add(new Vector(offsetX, offsetY, offsetZ)), sphereRadius)
-                            .setEmission(new Color(250, 250, 250)) // Whiter color
-                            .setMaterial(new Material().setKd(0.7).setKs(0.3).setShininess(100).setKt(0.3))
-            );
-        }
+        Point point1=center.add(new Vector(-radius,0.1*radius,0));
+        Point point2=center.add(new Vector(radius,0.1*radius,0));
+        Point point3=center.add(new Vector(-0.6*radius,0.5*radius,0));
+        Point point4=center.add(new Vector(0.6*radius,0.5*radius,0));
+
+        scene.geometries.add(
+                new Sphere(center,radius).setEmission(new Color(211,211,211))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(20)),
+                new Sphere(point1,radius).setEmission(new Color(211,211,211))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(20)),
+                new Sphere(point2,radius).setEmission(new Color(211,211,211))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(20)),
+                new Sphere(point3,radius).setEmission(new Color(211,211,211))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(20)),
+                new Sphere(point4,radius).setEmission(new Color(211,211,211))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.25).setShininess(20))
+
+
+        );
     }
 
     /**
