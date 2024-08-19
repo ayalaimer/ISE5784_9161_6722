@@ -35,15 +35,13 @@ public class Camera implements Cloneable {
     private BlackBoard blackBoard = new BlackBoard(0);
     /** Flag for adaptive super sampling */
     private Boolean isAdaptiveSampling = false;
-    private PixelManager pixelManager;   /** Number of threads to use for rendering */
+    private PixelManager pixelManager;
+    /** Number of threads to use for rendering */
     private int threadsCount = 0; // -2 auto, -1 range/stream, 0 no threads, 1+ number of threads
     /** Number of spare threads if trying to use all the cores */
     private final int SPARE_THREADS = 2; // Spare threads if trying to use all the cores
     /** Printing progress percentage interval */
     private double printInterval = 1; // printing progress percentage interval
-
-
-
 
 
     /**
@@ -100,6 +98,17 @@ public class Camera implements Cloneable {
      */
     public static Builder getBuilder() { return new Builder(); }
 
+
+
+    /**
+     * Calculates the 3D point on the view plane corresponding to the center of a specific pixel.
+     *
+     * @param nX Number of pixels in the horizontal direction.
+     * @param nY Number of pixels in the vertical direction.
+     * @param j  The column index of the pixel.
+     * @param i  The row index of the pixel.
+     * @return The 3D point on the view plane for the specified pixel.
+     */
     public Point getPIJ(int nX,int nY, int j, int i){
         // Calculate the center point of the image plane (pC) by moving from the camera location
         // along the viewing direction (vTo) by the specified distance
@@ -159,8 +168,8 @@ public class Camera implements Cloneable {
         blackBoard.setWidth(width/nX);
         blackBoard.setDensityBeam(numRays);
         Ray ray = constructRay(nX, nY, j, i);
+        // Generate a beam of rays around the central ray using the blackboard configuration
         rays = ray.calculateBeam(blackBoard);
-
         return rays;
     }
 
@@ -261,44 +270,67 @@ public class Camera implements Cloneable {
         pixelManager.pixelDone();
     }
 
+    /**
+     * Performs adaptive super-sampling on a specified region of the image.
+     * The function recursively subdivides the region if the colors at the corners
+     * of the region are not nearly equal, in order to improve the accuracy of the
+     * sampled color for that region.
+     *
+     * @param pC     Center point of the region to be sampled.
+     * @param width  Width of the region.
+     * @param height Height of the region.
+     * @param minW   Minimum width threshold for further subdivision.
+     * @param minH   Minimum height threshold for further subdivision.
+     * @return The averaged color of the region, considering potential further subdivisions.
+     */
     public Color adaptiveSuperSampling(Point pC, double width, double height, double minW, double minH ){
+        // If the region is smaller than the minimum allowed size, trace a single ray
         if (width < minW * 2 || height < minH * 2) {
-            return rayTracer.traceRay(new Ray(location, pC.subtract(location)));}
+            return rayTracer.traceRay(new Ray(location, pC.subtract(location)));
+        }
+
+        // Initialize lists for the corner points of the current region and their corresponding colors
         Point tempCorner;
         Ray tempRay;
-        List<Point>nextPCs= new LinkedList<>();
-        List<Color>cornerColors=new LinkedList<>();
+        List<Point> nextPCs = new LinkedList<>();
+        List<Color> cornerColors = new LinkedList<>();
+
+        // Loop over the four corners of the region
         for (int i = -1; i <= 1; i += 2)
             for (int j = -1; j <= 1; j += 2) {
+                // Calculate the corner point
                 tempCorner = pC.add(vRight.scale(i * width / 2)).add(vUp.scale(j * height / 2));
+                // Trace a ray to the corner and add the resulting color to the list
                 tempRay = new Ray(location, tempCorner.subtract(location));
                 cornerColors.add(rayTracer.traceRay(tempRay));
+                // Calculate the center point for the next recursive sampling
                 nextPCs.add(pC.add(vRight.scale(i * width / 4)).add(vUp.scale(j * height / 4)));
             }
+
+        // Check if all corner colors are nearly equal
         boolean isAllEquals = true;
         Color tempColor = cornerColors.getFirst();
-        for(Color color: cornerColors){
-            if(!tempColor.isAlmostEquals(color)) {
+        for (Color color : cornerColors) {
+            if (!tempColor.isAlmostEquals(color)) {
                 isAllEquals = false;
                 break;
             }
         }
+
+        // If all corner colors are the same, return the color
         if (isAllEquals)
             return tempColor;
 
+        // If not, recursively perform adaptive super-sampling on the sub-regions
         tempColor = Color.BLACK;
-        for(Point pc: nextPCs){
-            tempColor=tempColor
-                    .add(adaptiveSuperSampling(pc, width / 2, height / 2, minW, minH));
+        for (Point pc : nextPCs) {
+            tempColor = tempColor.add(adaptiveSuperSampling(pc, width / 2, height / 2, minW, minH));
         }
-        Color currentFinal=tempColor.reduce(nextPCs.size());;
-        return currentFinal;
 
-
-
-
-
+        // Return the average color of the sub-regions
+        return tempColor.reduce(nextPCs.size());
     }
+
 
     /**
      * Prints a grid on the image with the specified interval and color.
@@ -330,37 +362,53 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Delegates to the ImageWriter's writeToImage method to write the image to file.
+     * Delegates to the ImageWriter's writeToImage method to write the image to a file.
+     * This method ensures that the ImageWriter is set before attempting to write the image.
+     *
      * @throws MissingResourceException if the ImageWriter is not set.
      */
     public void writeToImage() {
+        // Check if the ImageWriter is set, throw an exception if it's missing
         if (imageWriter == null) {
             throw new MissingResourceException("Image writer value is missing", "Camera", "imageWriter");
         }
+        // Delegate the image writing process to the ImageWriter
         imageWriter.writeToImage();
     }
 
-
+    /**
+     * Translates the camera's position by the given vector.
+     *
+     * @param translation The vector by which to translate the camera's location.
+     * @return The updated Camera object with the new location.
+     */
     public Camera translate(Vector translation) {
+        // Update the camera's location by adding the translation vector
         this.location = this.location.add(translation);
         return this;
     }
 
-
+    /**
+     * Rotates the camera around the vTo vector by the specified angle.
+     * The rotation is applied to the vUp and vRight vectors.
+     *
+     * @param angleDegrees The angle in degrees by which to rotate the camera.
+     * @return The updated Camera object with the rotated vectors.
+     */
     public Camera rotate(double angleDegrees) {
+        // Convert the angle from degrees to radians
         double angleRadians = Math.toRadians(angleDegrees);
 
-        // Rotate vUp and vRight around vTo by the given angle
+        // Rotate vUp and vRight vectors around the vTo vector by the given angle
         Vector newVUp = vUp.rotateAround(vTo, angleRadians);
         Vector newVRight = vRight.rotateAround(vTo, angleRadians);
 
+        // Update the camera's vectors with the rotated values
         this.vUp = newVUp;
         this.vRight = newVRight;
 
         return this;
     }
-
-
 
 
     /**
